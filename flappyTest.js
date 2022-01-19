@@ -38,17 +38,10 @@ function Main(){
     this.gameRunning = true;
     this.pipeArray = [];
 
-    var mainClass = this;
+    var gameClass = this;
+    var player = new Player();
 
     this.pipeArray.push(new Pipe(window.innerWidth,0,200,'top',-3), new Pipe(window.innerWidth,window.innerHeight - 300,300,'bottom',-3));
-
-    this.reset = function(){
-        this.score = 0;
-        this.bird = {x:200,y:200,dy:0,size:30};
-        this.gameRunning = true;
-        this.pipeArray = [];
-        this.pipeArray.push(new Pipe(window.innerWidth,0,200,'top',-3), new Pipe(window.innerWidth,window.innerHeight - 300,300,'bottom',-3));
-    }
 
     //Generates pipes
     this.generatePipe = function(){
@@ -75,6 +68,9 @@ function Main(){
         
         //Drawing bird
         ctx.fillRect(this.bird.x,this.bird.y,this.bird.size,this.bird.size);
+
+        //Player Things:
+        player.applyGravity();
 
         //looping through present pipes
         for(let i = 0; i < this.pipeArray.length; i++){
@@ -108,6 +104,18 @@ function Main(){
         }
     }
 
+    function Player(){
+        var height = window.innerHeight;
+
+        //I want the jump and so forth to be relative to the screen size
+        this.jump = function(){
+            gameClass.bird.dy = -5*(height / 100); //% of screen height
+        }
+        this.applyGravity = function(){
+            gameClass.bird.dy += height/100;
+        }
+    }
+
     //even intervals on pipes, constant width
     function Pipe(x,y,height,rel,dx){
         this.WIDTH = 125;
@@ -128,15 +136,15 @@ function Main(){
             this.x += this.dx;
 
             //collision detection - sets gameRunning to false
-            if((mainClass.bird.x + mainClass.bird.size >= this.x && mainClass.bird.x + mainClass.bird.size <= this.x + this.WIDTH) && 
-            ((mainClass.bird.y <= this.y + this.height && this.rel === 'top') || 
-            (mainClass.bird.y + mainClass.bird.size >= this.y && this.rel === 'bottom'))){
-                mainClass.gameRunning = false;
+            if((gameClass.bird.x + gameClass.bird.size >= this.x && gameClass.bird.x + gameClass.bird.size <= this.x + this.WIDTH) && 
+            ((gameClass.bird.y <= this.y + this.height && this.rel === 'top') || 
+            (gameClass.bird.y + gameClass.bird.size >= this.y && this.rel === 'bottom'))){
+                gameClass.gameRunning = false;
             }
 
             //Checking if the play is above or below the playing area;
-            if((mainClass.bird.y <= 0 || mainClass.bird.y + mainClass.bird.size>= window.innerHeight)){
-                mainClass.gameRunning = false;
+            if((gameClass.bird.y <= 0 || gameClass.bird.y + gameClass.bird.size>= window.innerHeight)){
+                gameClass.gameRunning = false;
             }
             this.draw()
 
@@ -145,8 +153,8 @@ function Main(){
             //Means the first two items on the array will always have the closest x value to 0 (since the top and bottom are separate pipes)
 
             if(this.x + this.WIDTH < 0){
-                mainClass.pipeArray.shift();
-                mainClass.pipeArray.shift();
+                gameClass.pipeArray.shift();
+                gameClass.pipeArray.shift();
             }
         }
 
@@ -155,7 +163,7 @@ function Main(){
         //Calculating how fast the pipes should be moving
         this.calcSpeed = function(){
 
-            this.calc = (mainClass.score/375) * -4;
+            this.calc = (gameClass.score/375) * -4;
 
             if(this.calc > this.MAX && this.calc < this.MIN){
                 this.dx = this.calc;
@@ -167,6 +175,8 @@ function Main(){
         }
     }
 }
+
+
 
 var main = new Main;
 
