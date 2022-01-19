@@ -1,0 +1,64 @@
+body{
+    background: #C8FFFD;
+}
+*{
+    text-align: center;
+    background: #C8FFFD;
+    scroll-behavior: smooth;
+}
+
+/*Style for Buttons at Top */
+.button{
+    height: 8vh;
+    background: lightgray;
+    color: black;
+    font-size: 1.5vw;
+    font-weight: bold;
+    line-height: 8vh;
+    text-decoration: none;
+    border: 1px solid gray;
+    width: 12vw;
+}
+#toMultiplayer{
+    position: absolute;
+    top: 2vh;
+    right: 3%;
+}
+#backToHome{
+    position: absolute;
+    top: 2vh;
+    left: 3%;
+}
+
+/* 
+Best color scheme imaginable
+*/
+.Header{
+    margin-bottom: 10vh;
+}
+.Heading{
+    height: 20vh;
+    background: #7EFFF9;
+    font-size: 5vw;
+    line-height:20vh;
+    color: black;
+    font-weight: bold;
+}
+.growth{
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+    transition: opacity 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.growth:hover{
+    transform: scale(1.1);
+    opacity: 80%;
+}
+.button.growth:hover{
+    color:black;
+}
+.gameTitle{
+    font-size: 4vw;
+    text-decoration: none;
+}
+#multiplayerHeader{
+    margin-top: 15vh;
+}

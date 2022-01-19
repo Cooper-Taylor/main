@@ -1,0 +1,46 @@
+body{
+    background: #88cdc6;
+}
+
+*{
+    font-size: 2.5vw;
+    font-weight: bold;
+    background: #88cdc6;
+    color: white;
+}
+a{
+    text-decoration: none;
+    color: white;
+}
+#Header{
+    background: #177d97;
+    border-bottom: 3px solid white; 
+}
+#Heading {
+    font-size: 7vw;
+}
+#selectButtonChat, #selectButtonGames{
+    height: 20vh;
+    line-height: 18vh;
+    background: #177d97;
+    border: 1.5px solid white;
+}
+#selectButtonGames{
+    /*Note: 1/12 (no. of columns) roughly equals 8.33% */
+    margin-left: 16.66%;
+    margin-right: 8.33%;
+}
+#selectButtonChat{
+    float: right;
+    margin-left: 8.33%;
+}
+/*Provides the transition timing for it to change from the regular scale to the 1.2 scale */
+.growth{
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+    transition: opacity 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.growth:hover{
+    transform: scale(1.1);
+    opacity: 80%;
+    color: white;
+}
