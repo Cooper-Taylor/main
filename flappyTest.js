@@ -19,27 +19,50 @@ ctx.canvas.width = window.innerWidth;
 ctx.canvas.height = window.innerHeight;
 
 //Temp draw bird
-ctx.fillRect(200,200,30,30);
+ctx.fillRect(Math.floor(window.innerWidth/3),200,45,45);
 
+//creating new main game
+var main = new Main;
+
+var player = main.player;
+
+//Differentiate between first and next counts
 var arbCount = 0;
-
 document.getElementById("myCanvas").addEventListener("click", ()=>{
     if (arbCount === 0){
         ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
         Update();
+    }else{
+        player.jump()
     }
     arbCount++;
 })
 
+function Update(){
+    if(main.gameRunning){
+        requestAnimationFrame(Update);
+        main.updateGame();
+    }
+    else{
+        main = new Main;
+        player = main.player;
+        ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+        arbCount = 0;
+        console.log('dead');
+        ctx.fillRect(200,200,30,30);
+        changeScreen("titleScreen");
+    }
+}
+
 function Main(){
     //Initializing some variables
     this.score = 0;
-    this.bird = {x:200,y:200,dy:0,size:30};
+    this.bird = {x:(Math.floor(window.innerWidth/3)),y:200,dy:0,size:45};
     this.gameRunning = true;
     this.pipeArray = [];
 
     var gameClass = this;
-    var player = new Player();
+    this.player = new Player();
 
     this.pipeArray.push(new Pipe(window.innerWidth,0,200,'top',-3), new Pipe(window.innerWidth,window.innerHeight - 300,300,'bottom',-3));
 
@@ -56,7 +79,7 @@ function Main(){
 
         //bottom;
         x = window.innerWidth;
-        y = height + 300; //300 is the space between the top and bottom pipe
+        y = height + 250; //250 is the space between the top and bottom pipe
         height = window.innerHeight - y;
         rel = 'bottom';
         dx = 0;
@@ -70,7 +93,8 @@ function Main(){
         ctx.fillRect(this.bird.x,this.bird.y,this.bird.size,this.bird.size);
 
         //Player Things:
-        player.applyGravity();
+        this.player.applyGravity();
+        this.player.update();
 
         //looping through present pipes
         for(let i = 0; i < this.pipeArray.length; i++){
@@ -93,9 +117,9 @@ function Main(){
     }
 
     //Timing pipe generation
-    var rate = 80;
+    var rate = 50;
     this.calcPipe = function(){
-        console.log(Math.floor(this.score) % rate);
+        rate = (this.score < 500) ? 50 : 20;
         if(this.score % rate === 0){
             return true;
         }
@@ -107,12 +131,14 @@ function Main(){
     function Player(){
         var height = window.innerHeight;
 
-        //I want the jump and so forth to be relative to the screen size
         this.jump = function(){
-            gameClass.bird.dy = -5*(height / 100); //% of screen height
+            gameClass.bird.dy = -10;
         }
         this.applyGravity = function(){
-            gameClass.bird.dy += height/100;
+            gameClass.bird.dy += 0.4;
+        }
+        this.update = function(){
+            gameClass.bird.y += gameClass.bird.dy;
         }
     }
 
@@ -176,24 +202,6 @@ function Main(){
     }
 }
 
-
-
-var main = new Main;
-
-function Update(){
-    if(main.gameRunning){
-        requestAnimationFrame(Update);
-        main.updateGame();
-    }
-    else{
-        main = new Main;
-        ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
-        arbCount = 0;
-        console.log('dead');
-        ctx.fillRect(200,200,30,30);
-        changeScreen("titleScreen");
-    }
-}
 
 //Plan is to keep the player in place on the x-axis, and move the pipes from right to left across the screen
 /*Once they are off the screen, since they are going always going to be linear, 
