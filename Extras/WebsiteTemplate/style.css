@@ -11,6 +11,7 @@ body {
     flex-direction: row;
     overflow: hidden;
     column-gap: 3%;
+    height:90%;
 }
   
 h1 {
