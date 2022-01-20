@@ -24,7 +24,7 @@ ctx.fillRect(Math.floor(window.innerWidth/3),200,45,45);
 var main = new Main;
 var player = main.player;
 
-
+//Thanks Adam :)
 function checkInput(event){
     if (main.bird.dy > -2){
         switch(event.key){
