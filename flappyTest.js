@@ -14,7 +14,6 @@ function changeScreen(screen){
 //GameCode
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
-
 ctx.canvas.width = window.innerWidth;
 ctx.canvas.height = window.innerHeight;
 
@@ -23,20 +22,69 @@ ctx.fillRect(Math.floor(window.innerWidth/3),200,45,45);
 
 //creating new main game
 var main = new Main;
-
 var player = main.player;
 
-//Differentiate between first and next counts
-var arbCount = 0;
-document.getElementById("myCanvas").addEventListener("click", ()=>{
-    if (arbCount === 0){
-        ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
-        Update();
-    }else{
-        player.jump()
+
+function checkInput(event){
+    if (main.bird.dy > -2){
+        switch(event.key){
+            case 'w':
+            player.jump();
+            break;
+
+            case 'Spacebar':
+            player.jump();
+            break;
+
+            case ' ':
+                player.jump();
+            break;
+
+            case 'Enter':
+                player.jump();
+            break;
+
+            case 'ArrowUp':
+                player.jump();
+            break;
+        }
     }
-    arbCount++;
+
+    let key_state = (event.type == "keydown") ? 1 : 0;
+    switch(event.key){
+        case 'a':
+            player.left = key_state;
+        break;
+
+        case 'd':
+            player.right = key_state;
+        break;
+
+        case 'ArrowLeft':
+            player.left = key_state;
+        break;
+
+        case 'ArrowRight':
+            player.right = key_state;
+        break;
+    }
+}
+
+
+
+//Differentiate between first and next clicks
+document.getElementById("myCanvas").addEventListener("click", () =>{
+    ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+    Update();
+},{once : true});
+
+window.addEventListener("keydown", checkInput);
+window.addEventListener("keyup", checkInput);
+window.addEventListener("click", ()=>{
+player.jump();
 })
+
+
 
 function Update(){
     if(main.gameRunning){
@@ -47,17 +95,23 @@ function Update(){
         main = new Main;
         player = main.player;
         ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
-        arbCount = 0;
+        document.getElementById("myCanvas").addEventListener("click", () =>{
+            ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+            Update();
+        },{once : true});
         console.log('dead');
-        ctx.fillRect(200,200,30,30);
+        ctx.fillStyle = "black";
+        ctx.fillRect(Math.floor(window.innerWidth/3),200,45,45);
         changeScreen("titleScreen");
     }
 }
 
+
+
 function Main(){
     //Initializing some variables
     this.score = 0;
-    this.bird = {x:(Math.floor(window.innerWidth/3)),y:200,dy:0,size:45};
+    this.bird = {x:(Math.floor(window.innerWidth/3)),y:200,dx:0,dy:0,size:45};
     this.gameRunning = true;
     this.pipeArray = [];
 
@@ -76,20 +130,23 @@ function Main(){
         var rel = 'top';
         var dx = 0;
         this.pipeArray.push(new Pipe(x,y,height,rel,dx));
-
+ 
         //bottom;
         x = window.innerWidth;
-        y = height + 250; //250 is the space between the top and bottom pipe
+        y = height + 220; //220 is the space between the top and bottom pipe
         height = window.innerHeight - y;
         rel = 'bottom';
         dx = 0;
         this.pipeArray.push(new Pipe(x,y,height,rel,dx));
     }
 
+
+
     this.updateGame = function(){
         ctx.clearRect(0,0,window.innerWidth,window.innerHeight);
         
         //Drawing bird
+        ctx.fillStyle = "black";
         ctx.fillRect(this.bird.x,this.bird.y,this.bird.size,this.bird.size);
 
         //Player Things:
@@ -107,6 +164,7 @@ function Main(){
 
         //displaying score
         var scoreText = {x: ctx.canvas.width/2, y: 150, text: `${Math.floor(this.score)}`};
+        ctx.fillStyle = "#F5F5F5";
         ctx.font = "10vh serif";
         ctx.textAlign = "center";
         ctx.fillText(scoreText.text, scoreText.x, scoreText.y);
@@ -116,20 +174,26 @@ function Main(){
         } 
     }
 
+
+
     //Timing pipe generation
-    var rate = 50;
+    var rate = 40;
     this.calcPipe = function(){
-        rate = (this.score < 500) ? 50 : 20;
+        rate = (this.score < 500) ? 40 : 25;
+        if (rate == 26 && this.score > 1000){
+            rate = 15;
+        }
         if(this.score % rate === 0){
             return true;
         }
-        else{
-            return false;
-        }
     }
 
+
+
     function Player(){
-        var height = window.innerHeight;
+        this.left = 0;
+        this.right = 0;
+        this.speed = 8;
 
         this.jump = function(){
             gameClass.bird.dy = -10;
@@ -137,10 +201,22 @@ function Main(){
         this.applyGravity = function(){
             gameClass.bird.dy += 0.4;
         }
+
         this.update = function(){
+            gameClass.bird.dx = 0;
+            if (this.left){
+                gameClass.bird.dx = (gameClass.bird.x <= 0)? 0:-this.speed;
+            }
+            if (this.right){
+                gameClass.bird.dx = (gameClass.bird.x + gameClass.bird.size>= window.innerWidth)? 0:this.speed;
+            }
+
             gameClass.bird.y += gameClass.bird.dy;
+            gameClass.bird.x += gameClass.bird.dx;
         }
     }
+
+
 
     //even intervals on pipes, constant width
     function Pipe(x,y,height,rel,dx){
@@ -153,6 +229,7 @@ function Main(){
         this.dx = dx;
 
         this.draw = function(){
+            ctx.fillStyle = "black";
             ctx.fillRect(this.x,this.y,this.WIDTH,this.height);
         }
 
@@ -162,7 +239,8 @@ function Main(){
             this.x += this.dx;
 
             //collision detection - sets gameRunning to false
-            if((gameClass.bird.x + gameClass.bird.size >= this.x && gameClass.bird.x + gameClass.bird.size <= this.x + this.WIDTH) && 
+            if(((gameClass.bird.x + gameClass.bird.size >= this.x && gameClass.bird.x + gameClass.bird.size <= this.x + this.WIDTH) || 
+            (gameClass.bird.x >= this.x && gameClass.bird.x <= this.x + this.WIDTH)) && 
             ((gameClass.bird.y <= this.y + this.height && this.rel === 'top') || 
             (gameClass.bird.y + gameClass.bird.size >= this.y && this.rel === 'bottom'))){
                 gameClass.gameRunning = false;
@@ -174,21 +252,19 @@ function Main(){
             }
             this.draw()
 
-
             //If the array is off screen, remove it from array; doesn't matter the order since they are added in a linear fashion
-            //Means the first two items on the array will always have the closest x value to 0 (since the top and bottom are separate pipes)
-
-            if(this.x + this.WIDTH < 0){
+            //Try to ensure that the next pipe is off the screen to negate flashes
+            if(gameClass.pipeArray[0].x + this.WIDTH < -window.innerWidth/2){
                 gameClass.pipeArray.shift();
                 gameClass.pipeArray.shift();
             }
         }
 
-        this.MAX = -15;
+
+        this.MAX = -20;
         this.MIN = -3;
         //Calculating how fast the pipes should be moving
         this.calcSpeed = function(){
-
             this.calc = (gameClass.score/375) * -4;
 
             if(this.calc > this.MAX && this.calc < this.MIN){
