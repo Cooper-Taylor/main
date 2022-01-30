@@ -80,10 +80,15 @@ document.getElementById("myCanvas").addEventListener("click", () =>{
 
 window.addEventListener("keydown", checkInput);
 window.addEventListener("keyup", checkInput);
-window.addEventListener("click", ()=>{
-player.jump();
-})
 
+/*
+var isTouch = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
+if(isTouch){
+    window.addEventListener("touchstart",player.jump());
+} else{
+    window.addEventListener("click",player.jump());
+}
+*/
 
 
 function Update(){
