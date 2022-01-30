@@ -1902,6 +1902,32 @@
                     }
                     }
                 }, //Tile modder collision
+                13:function(object, row, column){
+                    let bounciness = 20;
+                    if(this.topCollision(object, row)){
+                        viewport.yv += bounciness * 2;
+                        viewport.yv *= -1;
+                        return;
+                    }
+                    if(this.leftCollision(object, column)){
+                        viewport.xv += bounciness * 2;
+                        viewport.xv *= -1;
+                        return;
+                      }
+
+                    if(this.rightCollision(object, column)){
+                        viewport.xv -= bounciness * 2;
+                        viewport.xv *= -1;
+                        return;
+                    }
+
+                    if(this.bottomCollision(object, row)){
+                        viewport.yv -= bounciness * 2;
+                        viewport.yv *= -1;
+                        return;
+                    }
+                           
+                }, // bouncy tile
                 
                 bottomCollision:function(object, row, offset = 0){
                    
@@ -2068,7 +2094,7 @@
                         //change the 2nd parameter to change img block
                         //console.log(strSplitSub[strSplitSub.length - 1]);
                         context.drawImage(tile_sheet,
-                            Number(strSplit[strSplit.length - 1])*32-32,
+                            Number(value)*32-32,
                             0,
                             30,
                             32,
@@ -2295,7 +2321,7 @@
                
                 var tile_sheet = new Image();
                 tile_sheet.addEventListener("load", (event) => { loadedState = true; });
-                tile_sheet.src = "https://user-images.githubusercontent.com/57375954/72811802-5f1b2c80-3c2e-11ea-82de-84079c775aab.png";
+                tile_sheet.src = "https://github.com/Cooper-Taylor/main/blob/main/Extras/Platformer/assets/tileSheet.png?raw=true";
                 //"https://user-images.githubusercontent.com/57375954/78173239-64160c80-7425-11ea-8482-c71c8ca1e3d4.png"; // Medium Quality Version
                
                
