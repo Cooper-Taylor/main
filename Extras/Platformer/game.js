@@ -1168,6 +1168,7 @@
                 get hitBoxYSpace(){return 0;},
                 get hitBoxXSpace(){return 0;},
                 speed:0.5,
+                defaultSpeed:0.5,
                 speedLvl: 1,
                 bulletSpeed:1,
                 bulletSpeedLvl:1,
@@ -1783,6 +1784,7 @@
                 let tileCoords = row * world.map.columns + column;
                 
                 items = [];
+                //player.speed = player.defaultSpeed;
                 //slimes = [];
                 
                 world.map.collisionLayer[tileCoords] = "000";
@@ -1836,7 +1838,7 @@
               
                 }
                    
-                },  //Door to other room collision
+                },  //Door to other room collision (checkpoint tile)
                 9:function(object,row,column, tileRedirect = false){
                 //Add animation for this
                 if(object == player){
@@ -1890,18 +1892,9 @@
                         
                     }
                 }, //Redirect tile
-                12:function(object,row,column){
-                    if(object == player){
-                    let tileCoords = row * world.map.columns + column;
-                    //Gets the layer through string then target id to change
-                    let xz;
-                    for(xz = 0; xz < world.map.tileModders[tileCoords].length; xz++){
-                        world.map[world.map.tileModders[tileCoords][xz].layer][world.map.tileModders[tileCoords][xz].targetTileId] = world.map.tileModders[tileCoords][xz].tileData;
-                        world.map.collisionLayer[world.map.tileModders[tileCoords][xz].targetTileId] = world.map.tileModders[tileCoords][xz].collisionData;
-                        
-                    }
-                    }
-                }, //Tile modder collision
+                12:function(object, row, column){
+                    object.speed*=2;
+                }, //speed up tile
                 13:function(object, row, column){
                     let bounciness = 20;
                     if(this.topCollision(object, row)){
@@ -1928,7 +1921,76 @@
                     }
                            
                 }, // bouncy tile
+                14:function(object,row,column){
+                    if(object == player){
+                    let tileCoords = row * world.map.columns + column;
+                    //Gets the layer through string then target id to change
+                    let xz;
+                    for(xz = 0; xz < world.map.tileModders[tileCoords].length; xz++){
+                        world.map[world.map.tileModders[tileCoords][xz].layer][world.map.tileModders[tileCoords][xz].targetTileId] = world.map.tileModders[tileCoords][xz].tileData;
+                        world.map.collisionLayer[world.map.tileModders[tileCoords][xz].targetTileId] = world.map.tileModders[tileCoords][xz].collisionData;
+                        
+                    }
+                    }
+                }, //Tile modder collision
+                15:function(object, row, column){
+
+                }, //half slab spikes
+                16:function(object, row, column){
+                     //Add animation for this
+                     if(object == player){
+                        let tileCoords = row * world.map.columns + column;
+                        
+                        items = [];
+                        //slimes = [];
+                        
+                        //Prevent this from triggering twice or mulitple times
+                        world.map.collisionLayer[tileCoords] = "000";
+                        
+                        let e = 100;
+                        let speed = 5;
+                        const playerCoordX = player.left;
+                        const playerCoordY = player.top;                    
                 
+                        let bana = setInterval( ()=>{
+                            e-=speed;
+                            
+                            player.y_velocity = 0;
+                            
+                            if(e > 0 && speed >= 1){
+                                player.y = playerCoordY;
+                            }
+                            
+                            if(e <= 0){
+                                
+                                level++;
+                                world.map.collisionLayer[tileCoords] = "006";
+                                player.x = world[level].respawnCoords.x;
+                                player.y = world[level].respawnCoords.y;
+                 
+                                changeWorld(world[1]);
+                                
+                              
+                                speed*=-1;
+                                
+                            }
+                            if(speed < 1 && e >= 100){
+                                
+                                
+                                clearInterval(bana);
+                                e = 100;
+                                return;
+                                
+                            }
+                            
+                            document.querySelector('canvas').style.filter = "brightness(" + e + "%)";
+                
+                            
+                        }, 50);
+                      
+                        }
+                           
+                }, //Game finish checkpoint
                 bottomCollision:function(object, row, offset = 0){
                    
                     if(object.top - object.oldTop < 0){
@@ -2260,23 +2322,6 @@
                     player.inventory.draw();
                 
                     context.fill();
-                    //context.drawImage(tile_sheet, 200,200, 20,20);
-                    //context.drawImage(tile_sheet, 0,0,32,32,200,200, 20,20);
-
-
-                    context.drawImage(
-                        tile_sheet,
-                        0,
-                        0,
-                        30,
-                        32,
-                        200,
-                        200,
-                        world.tileSize,
-                        20
-                    );
-
-                    //context.drawImage(tile_sheet,0,0,30,32,200,200,world.tile_size,world.tile_size);
                     
             }
          
