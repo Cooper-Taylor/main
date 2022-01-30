@@ -1762,14 +1762,16 @@
             
                         if(counter <= 0){
                             clearInterval(slowFall);
+                            object[whichWidth] = originalWidth;
+                            object[whichHeight] = originalHeight;
+                            
                             object.x = world.map.respawnCoords.x;
                             object.y = world.map.respawnCoords.y;
                             object.deathState = false;
                             
                             
                             
-                            object[whichWidth] = originalWidth;
-                            object[whichHeight] = originalHeight;
+                            
                             
                         }
                         
@@ -1934,63 +1936,63 @@
                     }
                 }, //Tile modder collision
                 15:function(object, row, column){
+                    //Add animation for this
+                    if(object == player){
+                       let tileCoords = row * world.map.columns + column;
+                       
+                       items = [];
+                       //slimes = [];
+                       
+                       //Prevent this from triggering twice or mulitple times
+                       world.map.collisionLayer[tileCoords] = "000";
+                       
+                       let e = 100;
+                       let speed = 5;
+                       const playerCoordX = player.left;
+                       const playerCoordY = player.top;                    
+               
+                       let bana = setInterval( ()=>{
+                           e-=speed;
+                           
+                           player.y_velocity = 0;
+                           
+                           if(e > 0 && speed >= 1){
+                               player.y = playerCoordY;
+                           }
+                           
+                           if(e <= 0){
+                               
+                               level++;
+                               world.map.collisionLayer[tileCoords] = "015";
+                               player.x = world[level].respawnCoords.x;
+                               player.y = world[level].respawnCoords.y;
+                
+                               changeWorld(world[1]);
+                               
+                             
+                               speed*=-1;
+                               
+                           }
+                           if(speed < 1 && e >= 100){
+                               
+                               
+                               clearInterval(bana);
+                               e = 100;
+                               return;
+                               
+                           }
+                           
+                           document.querySelector('canvas').style.filter = "brightness(" + e + "%)";
+               
+                           
+                       }, 50);
+                     
+                       }
+                          
+                }, //Game finish checkpoint
+                16:function(object, row, column){
 
                 }, //half slab spikes
-                16:function(object, row, column){
-                     //Add animation for this
-                     if(object == player){
-                        let tileCoords = row * world.map.columns + column;
-                        
-                        items = [];
-                        //slimes = [];
-                        
-                        //Prevent this from triggering twice or mulitple times
-                        world.map.collisionLayer[tileCoords] = "000";
-                        
-                        let e = 100;
-                        let speed = 5;
-                        const playerCoordX = player.left;
-                        const playerCoordY = player.top;                    
-                
-                        let bana = setInterval( ()=>{
-                            e-=speed;
-                            
-                            player.y_velocity = 0;
-                            
-                            if(e > 0 && speed >= 1){
-                                player.y = playerCoordY;
-                            }
-                            
-                            if(e <= 0){
-                                
-                                level++;
-                                world.map.collisionLayer[tileCoords] = "006";
-                                player.x = world[level].respawnCoords.x;
-                                player.y = world[level].respawnCoords.y;
-                 
-                                changeWorld(world[1]);
-                                
-                              
-                                speed*=-1;
-                                
-                            }
-                            if(speed < 1 && e >= 100){
-                                
-                                
-                                clearInterval(bana);
-                                e = 100;
-                                return;
-                                
-                            }
-                            
-                            document.querySelector('canvas').style.filter = "brightness(" + e + "%)";
-                
-                            
-                        }, 50);
-                      
-                        }
-                           
-                }, //Game finish checkpoint
                 bottomCollision:function(object, row, offset = 0){
                    
                     if(object.top - object.oldTop < 0){
@@ -2084,7 +2086,7 @@
             };
             
             //START UP STUFF Start
-            //startUpWorld();
+            startUpWorld();
             //End
             // prevent antialiasing 
         
@@ -2360,17 +2362,12 @@
                     player1.prototype.collision(); //this has to go last
 
             }
-                
-               
-               
                
                 var tile_sheet = new Image();
                 tile_sheet.addEventListener("load", (event) => { loadedState = true; });
                 tile_sheet.src = "https://github.com/Cooper-Taylor/main/blob/main/Extras/Platformer/assets/tileSheet.png?raw=true";
                 //"https://user-images.githubusercontent.com/57375954/78173239-64160c80-7425-11ea-8482-c71c8ca1e3d4.png"; // Medium Quality Version
-               
-               
-               
+              
                 //"https://user-images.githubusercontent.com/57375954/74661861-c7dec180-5166-11ea-8872-e0818b452a02.png"; Kinda Old
                 
                 //https://user-images.githubusercontent.com/57375954/74612482-cc0dcf00-50d3-11ea-8df5-c54ed2e3df43.png"; OLD
