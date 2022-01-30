@@ -3,8 +3,9 @@ These are games that have been found on the internet that are either cc0 or MIT 
 MIT License Definition: https://snyk.io/learn/what-is-mit-license/
 
 Link with a bunch of MIT licensed games:
-2D
 https://itch.io/games/code-mit
+
+2D
 https://partnano.itch.io/villager
 https://maxbittker.itch.io/sandspiel
 https://okaybenji.itch.io/goodnight
@@ -13,7 +14,6 @@ https://okaybenji.itch.io/goodnight
 https://eeyle.itch.io/trampolines-for-legs
 https://kleinboygames.itch.io/cube-horde
 https://rakkoon.itch.io/hexisles
-
 
 
 Open source js games:
@@ -25,12 +25,9 @@ https://github.com/proyecto26/awesome-jsgames
 MIT
 https://escada-games.itch.io/pigeon-ascent
 
-
-
 }
 
 3D:{
-
 https://tomo0613.itch.io/offroadjs
 https://github.com/pinkkis/phaser-driving/blob/master/LICENSE.md
 
