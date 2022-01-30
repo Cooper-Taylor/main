@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 body {
-    background-color: rgb(192, 220, 209);
+    background-color: #e3edea;
     height:100vh;
     width:100vw;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Roboto', sans-serif;;
     margin:0px;
 }
 
@@ -11,7 +13,8 @@ body {
     flex-direction: row;
     overflow: hidden;
     column-gap: 3%;
-    height:90%;
+    height:79%;
+    
 }
   
 h1 {
@@ -23,30 +26,33 @@ h1 {
     width:15vw;
     display: flex;
     flex-direction: column;
-    background-color: #6b9c7e;
+    background-color: #eea29a;
     padding:10px;  
     row-gap: 1%;
-    
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
       
 }
 
-.sideBarNavDiv{
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-size: 1.5vw;
+.sideBarNavA{
+    font-family: 'Roboto', sans-serif;;
+    font-size: 2vw;
     width:auto;
     height:10%;
-    background-color: #a3c2af;
     margin:0%;
-    text-align: center;
+    text-align: left;
     border-radius: 10%;
-    border: 2px solid #b0c9ba;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-bottom: 1% black solid;
+    color:inherit;
+    text-decoration: none;
+    
 }
 
-.sideBarNavDiv:hover{
-    background-color: #c9d7ce;
+.sideBarNavA:hover{
+    color: #f0f5f2;
 }
 
 #aside{
@@ -54,13 +60,36 @@ h1 {
 }
 
 #header{
-    text-align: center;
     font-size: 150%;
-    height:10%
+    height:10%;
+    display:flex;
+    flex-direction: row;
+    padding:1%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    margin-bottom:1%;
+    column-gap: 2%;
+    padding-left: 3%;
 }
 
-#chatDiv{
+#header div{
+    justify-content: center;
+    text-align: center;
+    font-size:250%;
+}
+
+#header > div > p{
+    margin-block-start: 0px;
+    margin-block-end: 0px;
+}
+
+#headerIcon{
+    font-size:100%;
+}
+
+.contentDiv{
     width:70%;
+    background-color: #b1cbbb;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 #chatMessages{
@@ -74,7 +103,7 @@ h1 {
   }
 
 #chatMessages > li:nth-child(odd){
-    background-color: rgb(127, 181, 139);
+    background-color: #deeaee;
 }
 
 #chatFormDiv{
@@ -92,14 +121,13 @@ h1 {
   }
 
 #chatForm button{
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     height:100%;
     margin:0px;
-    font-size:70%;
-  }
+    font-size:100%;
+}
 
 #chatInput{
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size:100%;
     border-radius: 0px;
     margin:0px;
     outline:none;

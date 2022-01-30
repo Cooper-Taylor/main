@@ -1,0 +1,52 @@
+           this.animation = new Animation();
+           this.set x(value){viewport.x = value - ( ( (viewport.w*0.5) - (player.width/2) ) + player.hitBoxXSpace ) ;}; //(viewport.x + (viewport.w * 0.5) - player.width/2) + player.hitBoxXSpace;
+           this.set y(value){viewport.y = value - ( ( (viewport.h*0.5) - (player.height/2) ) + player.hitBoxYSpace ) ;};  
+           this.set x_velocity(value){viewport.xv = value;};
+           this.set y_velocity(value){viewport.yv = value;};
+           this.set old_x(value){viewport.ox = value - ( ( (viewport.w*0.5) - (player.width/2) ) + player.hitBoxXSpace );};
+           this.set old_y(value){viewport.oy = value - ( ( (viewport.h*0.5) - (player.height/2) ) + player.hitBoxYSpace ) ;};
+           this.get offsetWidth(){return 0};
+           this.get offsetHeight(){return 0};
+           this.width =  world.tileSize+8;  //48       40
+           this.height =  world.tileSize+8; //48       40 recent-est
+           this.normWidth = world.tileSize+8; //can't put width or height here; put just the exact value
+           this.normHeight = world.tileSize+8;
+           this.health =  300;
+           this.maxHealth =  300;
+           this.deathState = false;
+           this.healthLvl =  1;
+           this.bounciness =  2;
+           this.jumpSpeed = 25;
+           this.canJump = [true; true;]; //Each item is one extra jump
+           this.jumpReady = true; //Stop the player from holding jump button and use up all their jumps instantly
+           this.get hitBoxWidth(){return this.width;};
+           this.get hitBoxHeight(){return this.height;};
+           this.get hitBoxX(){return this.realX;}; //Best not to touch these
+           this.get hitBoxY(){return this.realY;};
+           this.get hitBoxYSpace(){return 0;};
+           this.get hitBoxXSpace(){return 0;};
+           this.speed = 0.5;
+           this.speedLvl =  1;
+           this.bulletSpeed = 1;
+           this.bulletSpeedLvl = 1;
+           this.bulletDamage = 20;
+           this.bulletKnockback = 1.5;
+           this.bulletDamageLvl = 1;
+           this.lightningBow = false;
+           this.lightningBowLvl = 1;
+           this.inDialogue = false;
+           this.realX =  context.canvas.width/2 - this.width/2 - this.hitBoxXSpace;
+           this.realY =  context.canvas.height/2 - this.height/2 - this.hitBoxYSpace; //This is the real physical coordinates of the character; however these should ever so rarely change as only the camera moves.
+           this.inventory = new Inventory();
+           this.questInventory = [];
+           this.get bottom() {return viewport.getPlayerY() + (this.hitBoxHeight)};
+           this.get oldBottom() {return viewport.oldplayerY + (this.hitBoxHeight)};
+           this.get top(){ return viewport.getPlayerY()};
+           this.get oldTop(){ return viewport.oldplayerY};
+           this.get right(){ return viewport.getPlayerX() + (this.hitBoxWidth)};
+           this.get oldRight(){ return viewport.oldplayerX + (this.hitBoxWidth) };
+           this.get left(){ return viewport.getPlayerX() };
+           this.get oldLeft(){ return viewport.oldplayerX};
+           this.get centerX(){ return this.left + this.hitBoxWidth/2};
+           this.get centerY(){ return this.top + this.hitBoxHeight/2};
+    

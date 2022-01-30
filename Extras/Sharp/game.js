@@ -69,7 +69,7 @@ if (event.matches) {
 });
 
 function randInt(min, max){
-    return Math.floor((Math.random() * (max - min)+min));
+    return Math.floor((Math.random() * ((max + 1) - min)+min));
 }
 
 function dist(x1, y1, x2, y2){
