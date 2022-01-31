@@ -22,12 +22,12 @@ Open source js games:
 2D:{
 
 
-
 https://github.com/attogram/games //Filled with various games
 
 https://github.com/proyecto26/awesome-jsgames //Filled with various games
 
 MIT
+
 https://escada-games.itch.io/pigeon-ascent
 
 }
