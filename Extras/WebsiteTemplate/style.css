@@ -163,7 +163,7 @@ h1 {
 #gamesDiv{
     display: grid;
     grid-template-columns: auto auto auto;
-    padding:5%;
+    padding:3%;
     gap: 5%;
 }
 
@@ -171,4 +171,21 @@ h1 {
     background-color: #e3edea;
     text-align: center;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding:2%;
+}
+
+#gamesDiv > div:hover{
+    z-index: 5;
+    transform: scale(1.1);
+}
+
+.playBtn{
+    border-radius:10px;
+    width:50%;
+    font-size: 100%;
+    background-color: #eea29a;
+}
+
+.playBtn:hover{
+    opacity: 0.8;
 }

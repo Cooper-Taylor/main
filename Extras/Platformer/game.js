@@ -216,23 +216,7 @@
                 }
                 
             };
-            
-            var logScrapeOnBoulder = new Sound("https://www.youtube.com/audiolibrary_download?vid=d73e7f8efd2a613d");
-            var woodenSticks = new Sound("https://www.youtube.com/audiolibrary_download?vid=2d7485c24014118f");
-            var monumentalJourney = new Sound("https://www.youtube.com/audiolibrary_download?vid=cffcb5e7e8630c59");
-            var walkDirt = new Sound("");
-            var springDayForest = new Sound("https://www.youtube.com/audiolibrary_download?vid=e9cd69a66c773134");
-            
-            var cloudWheelsCastleBuilder = new Sound("https://www.youtube.com/audiolibrary_download?vid=cfe0f9e993b51fd9");
-            var walkingOnStoneFloor = new Sound("https://www.youtube.com/audiolibrary_download?vid=02e36a87b0adc8b0");
-            var buttonPush = new Sound("https://www.youtube.com/audiolibrary_download?vid=ad52ac00e6be0ecb");
-            //https://www.zapsplat.com/?s=blip&post_type=music&sound-effect-category-id=
-            /*var sound = new Sound("src");
-            var sound = new Sound("src");
-            var sound = new Sound("src");
-            var sound = new Sound("src");
-        */  
-            
+             
              var Timer = function(delay, long){
                 this.count = 0;
                 this.delay = delay;
@@ -1684,6 +1668,7 @@
                         e-=speed;
                         
                         player.y_velocity = 0;
+                        player.speed = player.defaultSpeed; //reset any speed buffs if they have one
                         
                         if(e > 0 && speed >= 1){
                             player.y = playerCoordY;
@@ -1764,6 +1749,7 @@
                             clearInterval(slowFall);
                             object[whichWidth] = originalWidth;
                             object[whichHeight] = originalHeight;
+                            player.speed = player.defaultSpeed; //reset any speed buffs if they have one
                             
                             object.x = world.map.respawnCoords.x;
                             object.y = world.map.respawnCoords.y;
@@ -1840,7 +1826,7 @@
               
                 }
                    
-                },  //Door to other room collision (checkpoint tile)
+                },  //Door to other room collision 
                 9:function(object,row,column, tileRedirect = false){
                 //Add animation for this
                 if(object == player){
@@ -1895,10 +1881,14 @@
                     }
                 }, //Redirect tile
                 12:function(object, row, column){
-                    object.speed*=2;
+                    if(object.speed !== object.defaultSpeed*5){object.speed*=5;}
+                    if (this.topCollision(object, row)) { return; }// Make sure to early out
+                    if (this.leftCollision(object, column)) { return; }// if a collision is detected.
+                    if (this.rightCollision(object, column)) { return; }
+                    this.bottomCollision(object, row);// No need to early out on the last check.
                 }, //speed up tile
                 13:function(object, row, column){
-                    let bounciness = 20;
+                    let bounciness = 22;
                     if(this.topCollision(object, row)){
                         viewport.yv += bounciness * 2;
                         viewport.yv *= -1;
@@ -1962,7 +1952,7 @@
                            
                            if(e <= 0){
                                
-                               level++;
+                               level = 1;
                                world.map.collisionLayer[tileCoords] = "015";
                                player.x = world[level].respawnCoords.x;
                                player.y = world[level].respawnCoords.y;
