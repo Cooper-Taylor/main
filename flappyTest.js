@@ -81,6 +81,7 @@ document.getElementById("myCanvas").addEventListener("click", () =>{
 window.addEventListener("keydown", checkInput);
 window.addEventListener("keyup", checkInput);
 
+//Used html document onclick to allow for both touchscreen and mouse interactions.
 /*
 var isTouch = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
 if(isTouch){

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Test</title>
+    </head>
+    <body>
+        <div class="rps-wrapper">
+            <ul id="events">
+            </ul>
+
+            <div class="button-wrapper">
+                <form id="chat-form">
+                    <input id="chat">
+                    <button id="send">Send</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="button-wrapper">
+            <form id="username-form">
+                <input id="user">
+                <button id="submit">Submit</button>
+            </form>
+        </div>
+
+
+        <!--Script coming from the server.js io variable-->
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="client.js"></script>
+    </body>
+</html>
