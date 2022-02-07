@@ -67,7 +67,7 @@ socket.on('connect', ()=>{
 
 document.querySelector('#chatForm').addEventListener('submit', onFormSubmitted);
 //Found through settings
-document.querySelector('#username-form').addEventListener('submit', onUserSubmit);
+//document.querySelector('#username-form').addEventListener('submit', onUserSubmit);
 
 /* 
 */
