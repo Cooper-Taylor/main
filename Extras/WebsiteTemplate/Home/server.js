@@ -96,6 +96,6 @@ server.on('error', (err) =>{
     console.error('Server error', err);
 })
 
-server.listen(8080, () =>{
-    console.log('Test stared on 8080');
+server.listen(process.env.PORT, () =>{
+    console.log('Test stared on process.env.PORT');
 })
