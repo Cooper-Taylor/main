@@ -34,7 +34,7 @@ function checkID(){
 }
 
 //Same object as on the server
-const socket = io();
+const socket = io('https://cuprio.herokuapp.com/');
 
 socket.on('message', writeEvent);
 

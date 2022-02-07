@@ -1,7 +1,6 @@
 const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
-
 const app = express();
 
 const clientPath = `${__dirname}`;
@@ -96,6 +95,6 @@ server.on('error', (err) =>{
     console.error('Server error', err);
 })
 
-server.listen(process.env.PORT, () =>{
+server.listen(process.env.PORT || 8080, () =>{
     console.log('Test stared on process.env.PORT');
 })
