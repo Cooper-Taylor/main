@@ -1,18 +1,22 @@
 {
-  "name": "ztestserver",
+  "name": "home",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
-    "dev":"nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "dev": "react-scripts start",
+    "start": "serve -s build",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "heroku-postbuild": "npm run build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.2",
+    "serve": "^13.0.2",
     "socket.io": "^4.4.1"
   },
   "devDependencies": {
