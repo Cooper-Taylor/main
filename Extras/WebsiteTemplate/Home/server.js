@@ -3,7 +3,7 @@ const express = require('express');
 const socketio = require('socket.io');
 const app = express();
 
-const clientPath = `${__dirname}`;
+const clientPath = `Home.html`;
 console.log(clientPath)
 
 app.use(express.static(clientPath))
