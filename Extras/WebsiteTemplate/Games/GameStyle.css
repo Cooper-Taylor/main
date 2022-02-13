@@ -1,0 +1,54 @@
+
+#gamesDiv{
+    display: grid;
+    grid-template-columns: 45% 45%; 
+    padding:3%;
+    gap: 5%;
+    overflow-y: scroll;
+    align-items: center;
+    justify-content: center;
+}
+
+.gameDiv{
+    background-color: #e3edea;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding:2%;
+    height:90%;
+}
+
+.gameDiv:hover{
+    z-index: 5;
+    transform: scale(1.1);
+}
+
+.gamesDivHeader{
+    grid-column-start: 1;
+    grid-column-end: 3;
+    font-size: 7vw;
+    background-color: #e3edea;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding:2%;
+    height:90%;
+}
+
+#gamesDiv > div > img{
+    width:50%;
+    height:50%;
+}
+
+.playBtn{
+    border-radius:10px;
+    width:50%;
+    font-size: 130%;
+    background-color: #eea29a;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    
+}
+
+.playBtn:hover{
+    opacity: 0.8;
+}
+
+

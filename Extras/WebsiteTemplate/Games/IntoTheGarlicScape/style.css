@@ -1,58 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
-body {
-    background-color: #e3edea;
-    height:100vh;
-    width:100vw;
-    font-family: 'Roboto', sans-serif;;
-    margin:0px;
-}
-
 #flexBody{
     display:flex;
     flex-direction: row;
     overflow: hidden;
     column-gap: 3%;
     height:79%;
-    
+    justify-content: center;
+    text-align: center;
 }
   
 h1 {
     color: navy;
     margin-left: 20px;
-}
-
-#sideBarNav{
-    width:15vw;
-    display: flex;
-    flex-direction: column;
-    background-color: #eea29a;
-    padding:10px;  
-    row-gap: 1%;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-
-      
-}
-
-.sideBarNavA{
-    font-family: 'Roboto', sans-serif;;
-    font-size: 2vw;
-    width:auto;
-    height:10%;
-    margin:0%;
-    text-align: left;
-    border-radius: 10%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-bottom: 1% black solid;
-    color:inherit;
-    text-decoration: none;
-    
-}
-
-.sideBarNavA:hover{
-    color: #f0f5f2;
 }
 
 #aside{
@@ -71,7 +31,7 @@ h1 {
     padding-left: 3%;
 }
 
-#header div{
+#header > div{
     justify-content: center;
     text-align: center;
     font-size:250%;
@@ -95,8 +55,8 @@ h1 {
     color:rgb(63, 63, 63);
 }
 
-.contentDiv{
-    width:70%;
+#chatDiv{
+    width:50%;
     background-color: #b1cbbb;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
@@ -159,3 +119,30 @@ h1 {
     font-size:70%;
     height:3%;
 }
+
+#gameDiv{
+    width:70%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+
+#gameDiv > iframe{
+    width:100%;
+    height:100%;
+}
+
+.topNavA{
+    font-family: 'Roboto', sans-serif;;
+    margin:0%;
+    border-radius: 0%;
+    border-bottom: 1% black solid;
+    color:inherit;
+    text-decoration: none;
+    font-size: 50%;
+
+}
+
+.topNavA:hover{
+    opacity: 0.5;
+}
+
