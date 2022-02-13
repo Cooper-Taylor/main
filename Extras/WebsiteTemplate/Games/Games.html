@@ -6,6 +6,7 @@
 
         <link rel="stylesheet" href="../GlobalStyle.css">
         <link rel="stylesheet" href="GameStyle.css">
+
     </head>
 
     <body>
@@ -29,8 +30,8 @@
           <a class="sideBarNavA" href="../About/About.html">About</a>
         </nav>
 
-        <div id="gamesDiv" class="contentDiv">
-              <div>
+        <div id="gamesDiv" class="contentDiv" data-aos="fade-in" data-aos-duration="1500">
+              <div >
                   <img src="../../../gameThumbnails/snakePicture.png?raw=true">
                   <h4>Flappy Bird</h4>
                   <button class="playBtn" onclick="location.href = 'FlappyBird/Game.html';">Play</button>   
@@ -93,6 +94,9 @@
       
       <footer id="footer"></footer>
 
-        
+         <!--AOS - Animation On Scroll - import-->
+         <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+         <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+         <script>AOS.init();</script>
     </body>
 </html>
