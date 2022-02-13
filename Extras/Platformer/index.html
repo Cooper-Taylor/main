@@ -26,7 +26,7 @@
             font-family: 'Press Start 2P', cursive;
             font-size:70%;
             position:absolute;
-            cursor:crosshair;
+            cursor:none;
         }
         body {
           overflow-y: hidden; 
@@ -36,7 +36,6 @@
 
         }
         
-       
         img {
             overflow-y: hidden;
               /*Following stuff from https://stackoverflow.com/questions/14068103/disable-antialising-when-scaling-images/14068216 */
@@ -94,55 +93,10 @@
             font-size:90%;
             width:100vw;
             padding:1%;
-            
-           
+             
         }
         table{
             height:100%;
-        }
-        #crystalCountDiv{
-            position:absolute;
-            width:150vw;
-            height:150vw;
-            left:0px;
-            top:0px;
-            font-size:310%;
-            display:inline-block;
-            cursor:crosshair;
-         
-            
-        }
-        #crystalCountItemP{
-            
-            font-size:30%;
-            position:absolute;
-            left:7%;
-            top:2%;
-            
-            
-
-            
-        }
-        #crystalCountItemImg{
-            
-             -khtml-user-select: none;
-            -o-user-select: none;
-            -moz-user-select: none;
-            -webkit-user-select: none;
-            user-select: none;
-            position:relative;
-            
-            top:2%;
-            
-            left:-79%;
-            
-        	width:100%;
-            
-        
-        	height:100%;
-        
-           
-        	clip-path: inset(0% 15.2% 95.2% 80%); /* or "none" */
         }
         .titleScreenButton{
             width:30%;
@@ -176,9 +130,7 @@
             top:0px;
             height:100%;
             width:100%;
-            background-image:url("https://user-images.githubusercontent.com/57375954/87887119-4da1ba00-c9f0-11ea-97a4-e7beb062e994.gif");
-            background-position: center;
-             background-repeat: no-repeat;
+            background-color: #000000;
             background-size: cover;
         }
         #settings{
@@ -231,15 +183,6 @@
         <canvas>
             
         </canvas>
-        
-        <div id="crystalCountDiv">
-        <p id="crystalCountItemP">
-            2500
-        </p>
-        
-        <img id="crystalCountItemImg" draggable="false" src="https://user-images.githubusercontent.com/57375954/79054532-92f56500-7c13-11ea-898c-fda60e0681a9.png">
-        
-        </div> 
         
         <p id="pew"></p>
         

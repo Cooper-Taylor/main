@@ -56,8 +56,6 @@
             var bullets = [];
             var mobBullets = [];
             var items = [];
-            var crystalCount = 25000;
-            var crystalCountItemP = document.getElementById("crystalCountItemP");
             var itemSize = tileSize/2;
             var friction = {x:0.9, y:0.9};
             let gravity = {x:0, y:0.5};
@@ -68,7 +66,6 @@
                 console.log("FPS: " + gameCycles);
                 gameCycles = 0;
             }, 1000);
-            crystalCountItemP.innerHTML = crystalCount;
             var level = 1; //the level the player is on
             
             function slideVolume(id){
@@ -742,10 +739,6 @@
                     viewport.yv -= player.jumpSpeed;
 
                 }
-                
-                player.inventory.selectSlot();
-                player.inventory.use();
-                player.inventory.dropItem(player.inventory.inventorySlot, player.left + player.hitBoxWidth/2, player.bottom);
                  
                 if(controller.up && controller.right && player.jumpReady){
                     player.animation.change(player_sheetFrames[3], 6);
@@ -921,17 +914,7 @@
                 context.fillRect(player.realX, player.realY, player.width, player.height);
 
                 //context.fillRect(player.realX + player.width/3.4, player.realY + (player.height/5.3), player.width*0.35, player.height * 0.55);
-                context.fillStyle = "#1adb92";
-                //context.fillStyle="#17bf7f";
-                context.fillRect((context.canvas.width/2) - ((player.health*(context.canvas.width/490))/2),  context.canvas.height/1.1 + (context.canvas.height/400),   player.health*(context.canvas.width/490),    context.canvas.height/50 - (context.canvas.height/200) );
-                //context.fillRect(player.realX, player.realY, player.width, player.width/3.4);
-                context.fillStyle = "#1adb92";
-                context.fillRect((context.canvas.width/2) - ((player.health*(context.canvas.width/500))/2), context.canvas.height/1.1, player.health*(context.canvas.width/500), context.canvas.height/50);
-                context.fillStyle="#17bf7f";
-                context.fillRect((context.canvas.width/2) - ((player.health*(context.canvas.width/500))/2), context.canvas.height/1.1 + (context.canvas.height/50), player.health*(context.canvas.width/500), -context.canvas.height/150);
-            
-                context.fillStyle="#FFFFFF";
-            // context.fillRect(player.hitBoxX, player.hitBoxY, player.hitBoxWidth, player.hitBoxHeight);
+                // context.fillRect(player.hitBoxX, player.hitBoxY, player.hitBoxWidth, player.hitBoxHeight);
                 
             
               };
@@ -1981,7 +1964,12 @@
                           
                 }, //Game finish checkpoint
                 16:function(object, row, column){
-
+                    
+                    if(object.bottom < ((row * world.tileSize) + (world.tileSize/2))){return;}
+                    if (this.topCollision(object, row)) { return; }// Make sure to early out
+                    if (this.leftCollision(object, column)) { return; }// if a collision is detected.
+                    if (this.rightCollision(object, column)) { return; }
+                    this.bottomCollision(object, row);// No need to early out on the last check.
                 }, //half slab spikes
                 bottomCollision:function(object, row, offset = 0){
                    
@@ -2275,7 +2263,7 @@
                         
                         var strSplit1 = value1.split("");
                         //+ width * 0.5 - viewport.w * 0.5
-                    // + height * 0.5 - viewport.h * 0.5
+                        // + height * 0.5 - viewport.h * 0.5
                         var tile_x = Math.floor(x * world.tileSize - viewport.x );
                         var tile_y = Math.floor(y * world.tileSize - viewport.y );
                 
@@ -2310,9 +2298,7 @@
                         //change the 2nd parameter to change img block
                     }
                     }
-                    
-                    player.inventory.draw();
-                
+                                    
                     context.fill();
                     
             }
