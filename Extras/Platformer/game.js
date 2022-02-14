@@ -107,7 +107,6 @@
                
                 let wh;
                 for(gh in world.map.tileModders){
-                    console.log(world.map.tileModders[gh].layer);
                     
                     for(wh = 0; wh < world.map.tileModders[gh].length; wh++){
                         world.map[world.map.tileModders[gh][wh].layer][world.map.tileModders[gh][wh].targetTileId] = "***";
@@ -1940,8 +1939,8 @@
                                world.map.collisionLayer[tileCoords] = "015";
                                player.x = world[level].respawnCoords.x;
                                player.y = world[level].respawnCoords.y;
-                
-                               changeWorld(world[1]);
+                            
+                               changeWorld(world[level]);                               
                                
                              
                                speed*=-1;
