@@ -1154,8 +1154,8 @@
                 get hitBoxY(){return this.realY;},
                 get hitBoxYSpace(){return 0;},
                 get hitBoxXSpace(){return 0;},
-                speed:0.5,
-                defaultSpeed:0.5,
+                speed:0.7,
+                defaultSpeed:0.7,
                 speedLvl: 1,
                 bulletSpeed:1,
                 bulletSpeedLvl:1,
@@ -1685,7 +1685,7 @@
                     world.map.collisionLayer[tileCoords] = "000";
                     
                     let e = 100;
-                    let speed = 5;
+                    let speed = 10;
                     const playerCoordX = player.left;
                     const playerCoordY = player.top;                    
             
@@ -1730,63 +1730,22 @@
                        
                 },  //To the next level collision
                 7:function(object,row,column){
-                    //Add animation for this
-                    let tileCoords = row * world.map.columns + column;
-                    let whichWidth;
-                    let whichHeight;
-                    let originalWidth;
-                    let originalHeight;
-                    let distFromSpawn;
-                    let counter = 10; //100 30 ms cycles
-                         
-                    //world.map.collisionLayer[tileCoords] = "000";
-                    if(object == player && player.deathState){
+                    //Add animation for this                         
+                    if(object !== player && player.deathState){
                         return;
                     }
+                    //create death splash
+                    pEngine.createParticleSplash(object.centerX, object.centerY, 30, {min:-30, max:30}, {min:-30, max:30}, 50, 10, 20)
+
+                    player.speed = player.defaultSpeed; //reset any speed buffs if they have one
+                            
+                    object.x = world.map.respawnCoords.x;
+                    object.y = world.map.respawnCoords.y;
+                    object.x_velocity = 0;
+                    object.y_velocity = 0; 
+                    object.deathState = false;
                     
                     
-                    if(object == player){
-                        //object.width -= (object.width/30);
-                        //object.height -= (object.height/30);
-                        whichWidth = "width";
-                        whichHeight = "height";
-                        player.deathState = true;
-                        originalWidth = object.width;
-                        originalHeight = object.height;
-                    }else{
-                        //object.w -= (object.w/10);
-                        //object.h -= (object.h/10);
-                        whichWidth = "w";
-                        whichHeight = "h";
-                         originalWidth = object.w;
-                         originalHeight = object.h;
-                    }
-                    
-                    let slowFall = setInterval( ()=>{
-                        object[whichWidth] -= (object[whichWidth]/3);
-                        object[whichHeight] -= (object[whichHeight]/3);
-                       
-                        object.x_velocity = 0;
-                        object.y_velocity = 0; 
-                        counter--;
-            
-                        if(counter <= 0){
-                            clearInterval(slowFall);
-                            object[whichWidth] = originalWidth;
-                            object[whichHeight] = originalHeight;
-                            player.speed = player.defaultSpeed; //reset any speed buffs if they have one
-                            
-                            object.x = world.map.respawnCoords.x;
-                            object.y = world.map.respawnCoords.y;
-                            object.deathState = false;
-                            
-                            
-                            
-                            
-                            
-                        }
-                        
-                    }, 30);
                     
                     
            
@@ -2108,6 +2067,9 @@
                 }
                
             };
+
+            let pEngine = new ParticleEngine();
+            
             
             //START UP STUFF Start
             startUpWorld();
@@ -2382,6 +2344,10 @@
                     player1.prototype.interact();
                     player1.prototype.update(); //UPDATE HAS TO GO AFTER INTERACT AHHHHH 
                     player1.prototype.collision(); //this has to go last
+
+                    pEngine.updateAndDraw(context);
+                    //pEngine.createParticleSplash(200,200,2, {min:0, max:30}, {min:-10, max:0}, 50);
+                    //pEngine.createParticleSplash(200, 200, 10, {min:-30, max:30}, {min:-30, max:30}, 50, 10, 20)
 
             }
                

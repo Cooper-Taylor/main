@@ -9,13 +9,13 @@ function randFloat(min, max){
 }
 
 class Particle {
-    constructor(x, y, life, velX = randFloat(-20,20), velY = randFloat(-50,-35)){
+    constructor(x, y, life, velX = randFloat(-20,20), velY = randFloat(-50,-35), opacityRate){
         this.x = x;
         this.y = y;
         this.velX = velX;
         this.velY = velY;
         this.life = life;
-
+        this.opacityRate = opacityRate;
     }
     update(i, list){
         this.velX *= friction.x;
@@ -23,9 +23,6 @@ class Particle {
 
         this.velY += gravity.y;
         this.velX += gravity.x;
-
-        this.velX += 0;
-        //this.velY += -0.3;
 
         this.x += this.velX;
         this.y += this.velY;
@@ -36,9 +33,10 @@ class Particle {
             list.splice(i, 1);
         }
     }
-    draw(){
-        ctx.fillStyle = "rgba(255,0,0," + (this.life/100) + ")";
-        ctx.fillRect(this.x, this.y, 10, 10);
+    draw(ctx, vx = viewport.x, vy = viewport.y){
+        //vx and vy is the viewport offset
+        ctx.fillStyle = "rgba(255,255,255," + (this.life/this.opacityRate) + ")";
+        ctx.fillRect(this.x - vx, this.y - vy, 10, 10);
     }
 }
 
@@ -51,25 +49,26 @@ class ParticleEngine {
         this.p; //for iterating as the reference for the current obj
     }
 
-    createParticleSplash(x, y, numP, pVelX = {min:-10, max:10}, pVelY = {min:-10, max: 10}, pLife = 100, pSize = 10){
+    createParticleSplash(x, y, numP, pVelX = {min:-10, max:10}, pVelY = {min:-10, max: 10}, pLife = 100, pSize = 10, opacityRate = 100){
         let z;
         for(z = 0; z < numP; z++){
             this.particles.push(new Particle(
-                x + randInt(-30,30), 
-                y + randInt(-30,30), 
+                x, 
+                y, 
                 pLife, 
                 randFloat(pVelX.min, pVelX.max), 
-                randFloat(pVelY.min, pVelY.min)
+                randFloat(pVelY.min, pVelY.max),
+                opacityRate
             ));
         }
     }
 
-    updateAndDraw(){
+    updateAndDraw(ctx){
         let x;
         for(x = 0; x < this.particles.length; x++){
             this.p = this.particles[x];
             this.p.update(x, this.particles);
-            this.p.draw();
+            this.p.draw(ctx);
         }       
     }
 
