@@ -1007,11 +1007,7 @@
             };
            
             player1.prototype.collision = function(){
-                        
-                var startingCorner = world.map.columns * world.tileSize - viewport.x - viewport.w;
-                //make these values more accurate though pretty good
                 
-                //Best One So Far
                 var leftColumn = Math.floor(( (player.left) / world.tileSize ));
                 var rightColumn =  Math.floor(( (player.right) / world.tileSize));
                 var topRow = Math.floor(( (player.top) / world.tileSize ));
@@ -1030,9 +1026,14 @@
                         //bottom left -x
                       collision[valueAtIndex](player,bottomRow,leftColumn);
                     }
-                    
-                        
-                     var valueAtIndexStr = world.map.collisionLayer[topRow * world.map.columns +leftColumn];
+
+                    //account for any changes in player pos
+                    leftColumn = Math.floor(( (player.left) / world.tileSize ));
+                    rightColumn =  Math.floor(( (player.right) / world.tileSize));
+                    topRow = Math.floor(( (player.top) / world.tileSize ));
+                    bottomRow = Math.floor(( (player.bottom ) / world.tileSize ));
+
+                    var valueAtIndexStr = world.map.collisionLayer[topRow * world.map.columns +leftColumn];
                    var valueAtIndex = Number(valueAtIndexStr);
                     
                     if(valueAtIndex != 0){
@@ -1048,6 +1049,11 @@
                         //bottom right +x
                       collision[valueAtIndex](player,bottomRow,rightColumn);
                     }
+
+                    leftColumn = Math.floor(( (player.left) / world.tileSize ));
+                    rightColumn =  Math.floor(( (player.right) / world.tileSize));
+                    topRow = Math.floor(( (player.top) / world.tileSize ));
+                    bottomRow = Math.floor(( (player.bottom ) / world.tileSize ));
                     
                      var valueAtIndexStr = world.map.collisionLayer[topRow * world.map.columns +rightColumn];
                    var valueAtIndex = Number(valueAtIndexStr);
@@ -1055,9 +1061,15 @@
                     if(valueAtIndex != 0){
                         //top right +x
                       collision[valueAtIndex](player,topRow,rightColumn);
+
                     }
                     
                }
+
+                leftColumn = Math.floor(( (player.left) / world.tileSize ));
+                rightColumn =  Math.floor(( (player.right) / world.tileSize));
+                topRow = Math.floor(( (player.top) / world.tileSize ));
+                bottomRow = Math.floor(( (player.bottom ) / world.tileSize ));
                
                if(viewport.y - viewport.oy < 0){
                     //Going up
@@ -1069,6 +1081,10 @@
                         collision[valueAtIndex](player,topRow,rightColumn);
                     }
                     
+                    leftColumn = Math.floor(( (player.left) / world.tileSize ));
+                    rightColumn =  Math.floor(( (player.right) / world.tileSize));
+                    topRow = Math.floor(( (player.top) / world.tileSize ));
+                    bottomRow = Math.floor(( (player.bottom ) / world.tileSize ));
                     var valueAtIndexStr = world.map.collisionLayer[topRow * world.map.columns + leftColumn];
                     var valueAtIndex = Number(valueAtIndexStr);
         
@@ -1091,6 +1107,10 @@
                        collision[valueAtIndex](player,bottomRow,rightColumn);
                     }
         
+                    leftColumn = Math.floor(( (player.left) / world.tileSize ));
+                    rightColumn =  Math.floor(( (player.right) / world.tileSize));
+                    topRow = Math.floor(( (player.top) / world.tileSize ));
+                    bottomRow = Math.floor(( (player.bottom ) / world.tileSize ));
                     var valueAtIndexStr = world.map.collisionLayer[bottomRow * world.map.columns + leftColumn];
                     var valueAtIndex = Number(valueAtIndexStr);
         
@@ -1159,7 +1179,9 @@
                 get oldLeft(){ return viewport.oldplayerX},
                 get centerX(){ return this.left + this.hitBoxWidth/2},
                 get centerY(){ return this.top + this.hitBoxHeight/2},
-    
+                getVelX:function(){return viewport.xv;},
+                getVelY:function(){return viewport.yv;},
+
             };
 
             player.normWidth = player.width;
@@ -1605,6 +1627,7 @@
                 },
          
             };
+            let side = "top";
     
             collision = {
                 1:function(object,row,column){
@@ -1624,11 +1647,30 @@
                     this.topCollision(object, row);
                 },  //Only top side collision
                 5:function(object,row,column){
-                
-                    if (this.topCollision(object, row)) { return; }// Make sure to early out
-                    if (this.leftCollision(object, column)) { return; }// if a collision is detected.
-                    if (this.rightCollision(object, column)) { return; }
-                    this.bottomCollision(object, row);// No need to early out on the last check.
+                    console.log(side);
+                  if(side == "top"){
+                        if (this.topCollision(object, row)) { return; }// Make sure to early out
+                        if (this.leftCollision(object, column)) { return; }// if a collision is detected.
+                        if (this.rightCollision(object, column)) { return; }
+                        this.bottomCollision(object, row);// No need to early out on the last check.
+                  }else if(side == "left"){
+                        if (this.leftCollision(object, column)) { return; }// Make sure to early out
+                        if (this.topCollision(object, row)) { return; }// if a collision is detected.
+                        if (this.rightCollision(object, column)) { return; }
+                        this.bottomCollision(object, row);// No need to early out on the last check.
+                  }else if(side == "right"){
+                        if (this.rightCollision(object, column)) { return; }
+                        if (this.topCollision(object, row)) { return; }// Make sure to early out
+                        if (this.leftCollision(object, column)) { return; }// if a collision is detected.
+                        this.bottomCollision(object, row);// No need to early out on the last check.
+                  }else if(side == "bottom"){
+                        if (this.bottomCollision(object, row)) { return; }
+                        if (this.rightCollision(object, column)) { return; }// Make sure to early out
+                        if (this.leftCollision(object, column)) { return; }// if a collision is detected.
+                        this.topCollision(object, row) // No need to early out on the last check.
+                  }
+                    
+                  
            
                 },  //All sides collision
                 6:function(object,row,column){
@@ -1974,19 +2016,21 @@
                 bottomCollision:function(object, row, offset = 0){
                    
                     if(object.top - object.oldTop < 0){
-                        var bottom = (row+1) * world.tileSize; //288
-                       
-                       //292.54716981132077 distance between player top and viewport.x
-                       
+                        var bottom = (row+1) * world.tileSize;
+                                              
                     if(object.top < bottom - offset && object.oldTop >= bottom - offset){
                   
+                        console.log(object.right);  //768
+                        console.error("err");
+                       // console.log(object.r);
+
                          object.y_velocity = 0;
                         
                        //object.old_y = object.y = bottom - object.cameraOffsetHeight - (object.hitBoxYSpace - 1);
                    
                         object.old_y = object.y = bottom - object.offsetHeight - offset;
                        
-                      
+                            side = "bottom";
                           return true;
                    }
                    
@@ -2002,7 +2046,7 @@
                         if(object.bottom > top + offset && object.oldBottom <= top + offset){
                             
                             object.y_velocity = 0;
-                            object.old_y = object.y = top - object.hitBoxHeight - object.offsetHeight + offset - 0.01;                            
+                            object.old_y = object.y = top - (object.hitBoxHeight + object.offsetHeight) + offset - 0.01;                            
                                                 
                             //viewport.oy = viewport.y = top - (viewport.h * 0.5) - ((player.height/5.3) * 4);
                                 
@@ -2011,7 +2055,7 @@
                             }
 
                             //console.log(object);
-                            
+                            side = "top";
                             return true;  
                         }
                         // viewport.oy = viewport.y = top - (viewport.h * 0.5) - player.height/5.3 - player.hitBoxHeight;
@@ -2031,7 +2075,8 @@
                         //console.log(viewport.getPlayerY() + " viewport player y");
                         object.x_velocity = 0;
                         object.old_x = object.x = left - (object.hitBoxWidth + object.offsetWidth) + offset - 0.01;
-                        
+
+                        side = "left";
                         return true;
                     }
                 
@@ -2055,6 +2100,7 @@
                 object.x_velocity = 0;
                 object.old_x = object.x = right - object.offsetWidth - offset;    
                   
+                side = "right";
                 return true;
                 }
                 }    
