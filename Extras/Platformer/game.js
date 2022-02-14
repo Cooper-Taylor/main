@@ -55,13 +55,9 @@
             var loadedState = false;
             var bullets = [];
             var mobBullets = [];
-            var items = [];
-            var itemSize = tileSize/2;
             var friction = {x:0.9, y:0.9};
             let gravity = {x:0, y:0.5};
-            var bulletSize = (tileSize * 2) / 1.2;
             var gameCycles = 0;
-            let playerStartCoords = {x:tileSize * 2,y:tileSize*2};
             let fpsCount = setInterval( ()=>{
                 console.log("FPS: " + gameCycles);
                 gameCycles = 0;
@@ -79,20 +75,18 @@
             }
             
             function startUpWorld(){
-              
                 world.map = world[1];
-                
-                if(loadedState){
-                    loop();
-                }
-                
-                backgroundColor = "#536dfe";
-                player.x = playerStartCoords.x;
-                player.y = playerStartCoords.y;
+                 
+                backgroundColor = "#202020";
+                player.x = world[1].respawnCoords.x;
+                player.y = world[1].respawnCoords.y;
                 
                 viewport.oldplayerY = viewport.getPlayerY();
                 viewport.oldplayerX =  viewport.getPlayerX();
                 
+                loop();
+                
+               
             };
             
             function changeWorld(worldChosen){
@@ -264,364 +258,7 @@
                
         
             }; 
-                    
-            const Item = function(x, y, w, h, use, sx, sy, stackSize){
-                this.x = x;
-                this.y = y;
-                this.w = w;
-                this.h = h;
-                this.vx = 0;
-                this.vy = 0;
-                this.sx = sx;
-                this.sy = sy;
-                this.use = use;
-                this.itemColumn = null;
-                this.itemRow = null;
-                this.tileCoords = null;
-                //this.distanceFromVictim = 100000;
-                this.color = Math.floor(Math.random() * 200);
-                if(stackSize !== undefined){
-                 this.stackSize = stackSize;
-                }else{
-                  this.stackSize = this.getStackSize();  
-                }
-            };
-            
-            Item.prototype = {
-                draw:function(){
-                    
-                    context.drawImage(item_sheet, this.sx, this.sy, 32, 32, this.x - viewport.x, this.y - viewport.y, this.w,this.h);
-                    
-                    
-                   
-                },
-                getStackSize:function(){
-                   
-                    switch(this.use){
-                            case "healthPotion": 
-                               return 1;
-                            break;
-                            case "speedPotion": 
-                                return 1;
-                            break;
-                            case "slimeBall": 
-                                return 4;
-                            break;
-                            case "bone": 
-                                return 4;
-                            break;
-                            default: return 1;
-                            break;
-                        }
-                        
-                        
-                    
-                },
-                distanceFromVictim:function(){
-                          return Math.sqrt( Math.pow( (this.x + this.w/2) - player.centerX, 2) + Math.pow( (this.y + this.h/2) - player.centerY, 2) );
-        
-                },
-                update:function(){
-                    
-                    this.xv *= 0.9;
-                    this.yv *= 0.9;
-                    
-                    this.x += this.vx;
-                    this.y += this.vy;
-                    
-         
-                    
-                    
-                    
-                },
-                collision:function(entity, itemArrayValue){
-                    
-                    if(viewport.getPlayerX() > this.x && viewport.getPlayerX() < this.x + this.w && viewport.getPlayerY() > this.y && viewport.getPlayerY() < this.y + this.h){
-                              
-                             
-                              
-                              return true;
-                                
-                    } else if(viewport.getPlayerX() + player.hitBoxWidth > this.x && viewport.getPlayerX() + player.hitBoxWidth < this.x + this.w && viewport.getPlayerY() + player.hitBoxHeight> this.y && viewport.getPlayerY() + player.hitBoxHeight< this.y + this.h){
-                               
-                               
-                               
-                               return true;
-                                
-                                
-                                //Could make sword attack false to make it one hit damage type
-                                
-                            }
-                    
-                    this.itemColumn = Math.floor((this.x + this.w*0.5) / tileSize);
-                    this.itemRow = Math.floor((this.y + this.h*0.5) / tileSize);
-                    this.tileCoords = this.itemRow * world.map.columns + this.itemColumn;
-                        
-                    
-                    
-                    if(world.map.collisionLayer[this.tileCoords] != "000" && world.map.collisionLayer[this.tileCoords] != "010" || world.map.layout[this.tileCoords] == "***"){
-                        
-                        
-                        
-                    
-                        let po;
-                        for(po = -10; po < 10; po++){
-                            
-                            
-                            if(world.map.collisionLayer[this.tileCoords + po] == "000" && world.map.layout[this.tileCoords] != "***"){
-                                this.x += tileSize * po;
-                                this.w = 100;
-                                
-                                return;
-                            }
-                            if(world.map.collisionLayer[po * world.map.columns + this.tileCoords] == "000" || world.map.layout[this.tileCoords] != "***"){
-                                this.y += tileSize * po;
-                                this.h=100;
-                                
-                                return;
-                            }
-                            
-                        }
-                        
-                      this.x = 190000000;
-                      this.y = 10993933939393939393993939393;
-                        
-                        
-                    }
-                    
-                },
-            };
-                    
-            const Inventory = function(x, y, w, h, xv, yv){
-                this.x = x;
-                this.y = y;
-                this.w = w;
-                this.h = h;
-                this.xv = xv;
-                this.yv = yv;
-                this.inventoryData = [];
-                this.inventoryLength = 5;
-                this.inventoryLengthLvl = 1;
-                this.inventorySlot = 0;
-                this.inventoryAppearanceSize = width/17; //40      width/17
-               
-        
-            };
-            
-            Inventory.prototype = {
-                draw:function(){
-                  
-                  let lineWidthOutline = Math.floor(this.inventoryAppearanceSize/15);
-                 
-                  // context.fillRect(context.canvas.width - 160,0,40*this.inventoryData.length,40);
-                   
-                   for(let t = 0; t < this.inventoryData.length; t++){
                        
-                       var ranColor = this.inventoryData[t][0].color;
-                       
-                       
-                       if(ranColor > 150){
-                           context.fillStyle = "blue";
-                       }else if(ranColor < 70){
-                           context.fillStyle = 'green';
-                       }else{
-                           context.fillStyle = 'violet';
-                       }
-                        
-                       
-        
-                       context.fillRect(context.canvas.width - (this.inventoryAppearanceSize*this.inventoryLength) + (t*this.inventoryAppearanceSize) ,lineWidthOutline/2,this.inventoryAppearanceSize,this.inventoryAppearanceSize);
-                        
-                       context.drawImage(item_sheet, this.inventoryData[t][0].sx, this.inventoryData[t][0].sy, 32, 32, context.canvas.width - (this.inventoryAppearanceSize*this.inventoryLength) + (t*this.inventoryAppearanceSize) , lineWidthOutline/2, this.inventoryAppearanceSize, this.inventoryAppearanceSize);
-        
-                       context.drawImage(item_sheet, this.inventoryData[t][0].sx, this.inventoryData[t][0].sy, 32, 32, context.canvas.width - (this.inventoryAppearanceSize*this.inventoryLength) + (t*this.inventoryAppearanceSize) , lineWidthOutline/2, this.inventoryAppearanceSize, this.inventoryAppearanceSize);
-        
-                        if(this.inventoryData[t].length == this.inventoryData[t][0].stackSize){
-                            context.fillStyle = "#d9d925";
-                        }else{
-                        context.fillStyle = "#FFFFFF";
-                        }
-                        
-                         let fontScale = this.inventoryAppearanceSize/3;
-                        context.font = fontScale + "px Geo";
-                        context.fillText(this.inventoryData[t].length, context.canvas.width - (this.inventoryAppearanceSize*this.inventoryLength) + (t*this.inventoryAppearanceSize) + this.inventoryAppearanceSize/1.25, lineWidthOutline/3 + this.inventoryAppearanceSize/1.08 );
-                        
-                   }
-                  
-                    context.strokeStyle = "#FFFFFF";
-                   context.lineWidth = lineWidthOutline;
-                   context.strokeRect(context.canvas.width - (this.inventoryAppearanceSize*this.inventoryLength) + (this.inventorySlot*this.inventoryAppearanceSize), lineWidthOutline/2, this.inventoryAppearanceSize, this.inventoryAppearanceSize);
-                   //context.fillRect(0,0,width,1);
-                    context.lineWidth = 1;
-                    
-                   
-                    
-                 
-                
-                    //DRAWS CRYSTAL COUNTER BELOW
-                    // context.font = "50px Geo";
-                 //    context.drawImage(item_sheet, 33 * 14, 0, 32, 32, 10, 22, 32,32);
-                  //   context.fillText(crystalCount, 50, 50);
-        
-        
-        
-                   
-        
-                },
-                update:function(){
-                  
-                },
-                collision:function(entity){
-                    
-                },
-                pickUpItem:function(sprite, arrayValue){
-                     
-                     
-                     if(sprite.use == "gem" && sprite.collision(player) ){
-                                  crystalCount++;
-                                  crystalCountItemP.innerHTML = crystalCount;
-                                  items.splice(arrayValue, 1);
-                                  return;
-                    }
-                    
-                               
-                    
-                    if( sprite.collision(player) ){
-                        for(let b = 0; b < this.inventoryData.length; b++){
-                            if(sprite.use == this.inventoryData[b][0].use && this.inventoryData[b].length < sprite.stackSize){
-                                
-                                this.inventoryData[b].push(sprite);
-                      
-                                items.splice(arrayValue,1);
-                                return;
-                                
-                            }
-                        }
-                    }
-                    
-                    if(sprite.collision(player) && this.inventoryLength > this.inventoryData.length){
-                       
-                       this.inventoryData[this.inventoryData.length] = [];
-                       this.inventoryData[this.inventoryData.length-1].push(sprite);
-                      
-                       items.splice(arrayValue,1);
-        
-                       
-                    }
-                    
-                    
-                },
-                dropItem:function(itemArrayValue, locX, locY){
-                   
-                    if(controller.spacebar && this.inventoryData[itemArrayValue] !== undefined && !player.inDialogue){
-                       
-                    var item = this.inventoryData[itemArrayValue].splice(0,1);
-                    
-                    let throwDir = Math.floor(Math.random() * (1 + 2 + 1) ) - 2;    
-                        item[0].x = locX += (throwDir*player.hitBoxWidth * 0.7);
-                        item[0].y = locY + Math.floor(Math.random() * (5 - 3 + 5) ) + 3;
-                        const falL = item[0].y;
-                        
-                        
-                        
-                        var waka = setInterval(() => {
-                            item[0].vy+=0.2;
-                            item[0].update();
-                            if(item[0].y > falL+player.hitBoxHeight/2){
-                           clearInterval(waka);
-                           item[0].vy = 0;
-                           //item[0].y--;
-                           
-                            }
-                            
-                        }, 10);
-                        
-                        
-                     if(this.inventoryData[itemArrayValue][0] == undefined ){
-                         
-                         this.inventoryData.splice(itemArrayValue,1);
-                         
-                     }
-                            
-                        
-                        
-                        items.push(item[0]);
-                        
-                        
-                        
-                        controller.spacebar = false;
-                        
-                    } 
-                },
-                use:function(){
-                   
-                    if(controller.q && this.inventoryData.length > 0 && this.inventoryData[this.inventorySlot] !== undefined){
-               // this.inventoryData[this.inventorySlot].use.use();
-                        switch(this.inventoryData[this.inventorySlot][0].use){
-                            case "healthPotion": 
-                                player.health+=200;
-                                this.inventoryData[this.inventorySlot].splice(0, 1);
-                            break;
-                            case "speedPotion": 
-                                player.speed*=2;
-                                this.inventoryData[this.inventorySlot].splice(0, 1);
-                            break;
-                            default:
-                            break;
-                        }
-                        
-                         if(this.inventoryData[this.inventorySlot][0] == undefined ){
-                         
-                         this.inventoryData.splice(this.inventorySlot,1);
-                         
-                         }
-                        
-                        
-                        
-                        
-                        controller.q = false;
-                        
-                    }
-        
-                },
-                selectSlot:function(){
-                  
-                    if(controller[1]){
-                        this.inventorySlot = 0;
-                        //healthPotion.use();
-                        items.push(new Item(controller.mouseX + viewport.x,controller.mouseY + viewport.y,20,20, "healthPotion", 99, 0));
-                        
-                        controller[1] = false;
-                        
-                    }else if(controller[2]){
-                        this.inventorySlot = 1;
-                        
-        
-                    }else if(controller[3]){
-                        this.inventorySlot = 2;
-                        controller[3] = false;
-               
-                    }else if(controller[4]){
-                        this.inventorySlot = 3;
-                        controller[4] = false;
-                        
-                    }else if(controller[5]){
-                        this.inventorySlot = 4;
-                        controller[5] = false;
-                        
-                    }else if(controller[6]){
-                        this.inventorySlot = 5;
-                        controller[6] = false;
-                        
-                    }else if(controller[7]){
-                        this.inventorySlot = 6;
-                        controller[7] = false;
-                        
-                    }
-               
-                },
-            };
-            
             Bullet.prototype = {
         
                         updatePosition:function() {
@@ -919,41 +556,28 @@
               };
             
             player1.prototype.death = function() {
-                player.health = 9999999000000000000000000000000000;
+                player.deathState = true; //useless for now
+
+                //create death splash
+                pEngine.createParticleSplash(player.centerX, player.centerY, 30, {min:-30, max:30}, {min:-30, max:30}, 50, 10, 20)
+
+                player.speed = player.defaultSpeed; //reset any speed buffs if they have one
+
                 player.x_velocity = 0;
                 player.y_velocity = 0;
-                let E = 100;
-                let speeD = 5;
-        
-                let bana = setInterval( ()=>{
-                    E-=speeD;
-                    
-                    if(E <= 0){
-                        player.health = player.maxHealth;
-                        player.width = player.normWidth;
-                        player.height = player.normHeight;
-                        if(typeof world.map.respawnCoords.worldToSpawnTo !== "undefined"){
-                            world.map = world.map.respawnCoords.worldToSpawnTo;
-                            //changeWorld(world.map);
-                        }
-                        player.x = world.map.respawnCoords.x;
-                        player.y = world.map.respawnCoords.y;
-                        player.deathState = false;
-                                
-                      
-                        speeD*=-1;
-                        
-                    }
-                    if(speeD < 1 && E >= 100){
-                        clearInterval(bana);
-                    }
-                    
-                   context.canvas.style.filter = "brightness(" + E + "%)";
-        
-                    
-                }, 50);
-              
+
+                player.width = player.normWidth;
+                player.height = player.normHeight;
+                player.x = world.map.respawnCoords.x;
+                player.y = world.map.respawnCoords.y;
+
+                if(typeof world.map.respawnCoords.worldToSpawnTo !== "undefined"){
+                    world.map = world.map.respawnCoords.worldToSpawnTo;
+                    changeWorld(world.map);
+                }
                 
+                player.deathState = false;
+
             };
             
             player1.prototype.update = function() {
@@ -1011,10 +635,6 @@
                 var rightColumn =  Math.floor(( (player.right) / world.tileSize));
                 var topRow = Math.floor(( (player.top) / world.tileSize ));
                 var bottomRow = Math.floor(( (player.bottom ) / world.tileSize ));
-            
-                context.beginPath();
-                context.fillText(Math.floor(topRow * world.map.columns + leftColumn), 400,200);
-                context.fill();
                              
                if(viewport.x - viewport.ox < 0){
                    var valueAtIndexStr = world.map.collisionLayer[bottomRow * world.map.columns + leftColumn];
@@ -1155,19 +775,8 @@
                 get hitBoxXSpace(){return 0;},
                 speed:0.7,
                 defaultSpeed:0.7,
-                speedLvl: 1,
-                bulletSpeed:1,
-                bulletSpeedLvl:1,
-                bulletDamage:20,
-                bulletKnockback:1.5,
-                bulletDamageLvl:1,
-                lightningBow:false,
-                lightningBowLvl:1,
-                inDialogue:false,
                 realX: context.canvas.width/2 - this.width/2 - this.hitBoxXSpace,
                 realY: context.canvas.height/2 - this.height/2 - this.hitBoxYSpace, //This is the real physical coordinates of the character, however these should ever so rarely change as only the camera moves.
-                inventory:new Inventory(),
-                questInventory:[],
                 get bottom() {return viewport.getPlayerY() + (this.hitBoxHeight)},
                 get oldBottom() {return viewport.oldplayerY + (this.hitBoxHeight)},
                 get top(){ return viewport.getPlayerY()},
@@ -1185,6 +794,8 @@
 
             player.normWidth = player.width;
             player.normHeight = player.height;
+
+            let pEngine = new ParticleEngine();
                 
             var Viewport = function(x, y, w, h, yv, xv){
                 this.x = x;
@@ -1646,7 +1257,6 @@
                     this.topCollision(object, row);
                 },  //Only top side collision
                 5:function(object,row,column){
-                    console.log(side);
                   if(side == "top"){
                         if (this.topCollision(object, row)) { return; }// Make sure to early out
                         if (this.leftCollision(object, column)) { return; }// if a collision is detected.
@@ -1692,6 +1302,7 @@
                         e-=speed;
                         
                         player.y_velocity = 0;
+                        player.x_velocity = 0;
                         player.speed = player.defaultSpeed; //reset any speed buffs if they have one
                         
                         if(e > 0 && speed >= 1){
@@ -1699,9 +1310,9 @@
                         }
                         
                         if(e <= 0){
-                            
-                            level++;
+
                             world.map.collisionLayer[tileCoords] = "006";
+                            level++;
                             player.x = world[level].respawnCoords.x;
                             player.y = world[level].respawnCoords.y;
              
@@ -1733,21 +1344,9 @@
                     if(object !== player && player.deathState){
                         return;
                     }
-                    //create death splash
-                    pEngine.createParticleSplash(object.centerX, object.centerY, 30, {min:-30, max:30}, {min:-30, max:30}, 50, 10, 20)
-
-                    player.speed = player.defaultSpeed; //reset any speed buffs if they have one
-                            
-                    object.x = world.map.respawnCoords.x;
-                    object.y = world.map.respawnCoords.y;
-                    object.x_velocity = 0;
-                    object.y_velocity = 0; 
-                    object.deathState = false;
                     
-                    
-                    
-                    
-           
+                    player1.prototype.death();
+       
                 },  //Spikes Death collision
                 8:function(object,row,column){
                 //Add animation for this
@@ -1864,7 +1463,7 @@
                     }
                 }, //Redirect tile
                 12:function(object, row, column){
-                    if(object.speed !== object.defaultSpeed*5){object.speed*=5;}
+                    if(object.speed !== object.defaultSpeed*4){object.speed*=4;}
                     if (this.topCollision(object, row)) { return; }// Make sure to early out
                     if (this.leftCollision(object, column)) { return; }// if a collision is detected.
                     if (this.rightCollision(object, column)) { return; }
@@ -1940,7 +1539,7 @@
                                player.x = world[level].respawnCoords.x;
                                player.y = world[level].respawnCoords.y;
                             
-                               changeWorld(world[level]);                               
+                               changeWorld(world[level]);e                               
                                
                              
                                speed*=-1;
@@ -1966,10 +1565,13 @@
                 16:function(object, row, column){
                     
                     if(object.bottom < ((row * world.tileSize) + (world.tileSize/2))){return;}
-                    if (this.topCollision(object, row)) { return; }// Make sure to early out
-                    if (this.leftCollision(object, column)) { return; }// if a collision is detected.
-                    if (this.rightCollision(object, column)) { return; }
-                    this.bottomCollision(object, row);// No need to early out on the last check.
+                    //check if the object is the player
+                    if(object !== player && player.deathState){
+                        return;
+                    }
+                    player1.prototype.death();
+                    
+                    
                 }, //half slab spikes
                 bottomCollision:function(object, row, offset = 0){
                    
@@ -2067,11 +1669,10 @@
                
             };
 
-            let pEngine = new ParticleEngine();
             
             
             //START UP STUFF Start
-            startUpWorld();
+            //startUpWorld();
             //End
             // prevent antialiasing 
         
@@ -2239,24 +1840,7 @@
                                 
                                 
                                 }
-                    
-                    for( index = items.length - 1; index > -1; -- index){
-                        let item = items[index];
-                        if(item.distanceFromVictim() + item.w/2 < vmax){
-                            item.draw();
-                            
-                            item.collision(player, index);
-                            item.update();
-                            
-                    
-                            player.inventory.pickUpItem(item, index); //There is a if statement built into it 
-                        //  player.inventory.use(item);
-                                    
-                            item.update();
-                        }
-                        
-                    }
-                    
+                
                     context.fillStyle = "#FFFFFF";   
                     context.beginPath();
                     
