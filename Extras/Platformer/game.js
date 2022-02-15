@@ -86,7 +86,6 @@
                 
                 loop();
                 
-               
             };
             
             function changeWorld(worldChosen){
@@ -365,9 +364,42 @@
                 let x;
 
                  //So the user does not use up all their jumps in one keypress (makes it so the player has to stop pressing the jump key before he can jump again)
-                if(!controller.w && !controller.up){
+                if(!controller.w && !controller.up && !controller.spacebar){
                     player.jumpReady = true;
                 }
+
+                if(controller.spacebar && (controller.a || controller.left) && player.jumpReady){
+                    player.animation.change(player_sheetFrames[3], 6);
+                    for(let x = 0; x < player.canJump.length; x++){
+                        if(player.canJump[x]){
+                            viewport.xv -= player.speed;
+                            viewport.yv -= player.jumpSpeed;
+                            player.canJump[x] = false;
+                            //So all jumps are not used instantly
+                            player.jumpReady = false;
+        
+                            break;
+                        }
+                    }
+                    return;
+                }
+
+                if(controller.spacebar && (controller.d || controller.right) && player.jumpReady){
+                    player.animation.change(player_sheetFrames[3], 6);
+                    for(let x = 0; x < player.canJump.length; x++){
+                        if(player.canJump[x]){
+                            viewport.xv += player.speed;
+                            viewport.yv -= player.jumpSpeed;
+                            player.canJump[x] = false;
+                            //So all jumps are not used instantly
+                            player.jumpReady = false;
+        
+                            break;
+                        }
+                    }
+                    return;
+                }
+                
                
                 if(controller.e){
                    
@@ -535,8 +567,42 @@
                     player.animation.change(player_sheetFrames[2], 6);
                     return;
                 }
+
+                if(controller.spacebar && player.jumpReady){
+                    //player.y_velocity-=player.speed;
+                    player.animation.change(player_sheetFrames[3], 6);
+                    for(let x = 0; x < player.canJump.length; x++){
+                        if(player.canJump[x]){
+                            viewport.yv -= player.jumpSpeed;
+                            player.canJump[x] = false;
+                            //So all jumps are not used instantly
+                            player.jumpReady = false;
+
+                            break;
+                            
+                        }
+                    }
+                    return;
+        
+                }
+
+                if(controller.w && controller.d && player.jumpReady){
+                    player.animation.change(player_sheetFrames[3], 6);
+                    for(let x = 0; x < player.canJump.length; x++){
+                        if(player.canJump[x]){
+                            viewport.xv += player.speed;
+                            viewport.yv -= player.jumpSpeed;
+                            player.canJump[x] = false;
+                            //So all jumps are not used instantly
+                            player.jumpReady = false;
+        
+                            break;
+                        }
+                    }
+                    return;
+                }
                 
-                if(!controller.w &&!controller.a &&!controller.s &&!controller.d &&!controller.up &&!controller.down &&!controller.left &&!controller.right && !controller.click && !controller.clickAnim){
+                if(!controller.w &&!controller.a &&!controller.s &&!controller.d &&!controller.up &&!controller.down &&!controller.left &&!controller.right && !controller.click && !controller.clickAnim && controller.spacebar){
                     player.animation.change(player_sheetFrames[6], 24);
                     
                 }
@@ -762,6 +828,7 @@
                 health: 300,
                 maxHealth: 300,
                 deathState:false,
+                worldIsBeingChanged:false,
                 healthLvl: 1,
                 bounciness: 2,
                 jumpSpeed:25,
@@ -818,7 +885,6 @@
             var viewport = new Viewport(0, 0, context.canvas.width, context.canvas.height, 0, 0);
                     
             controller = {
-                dialogueButtonState:undefined,
                 down:false,
                 left:false,
                 right:false,
@@ -939,9 +1005,6 @@
                     }
                 
                 },
-                FindButtonDialogueId:function(id){
-                        this.dialogueButtonState = id;
-                    },
                 
                 
             };
@@ -1285,6 +1348,10 @@
                 6:function(object,row,column){
                     //Add animation for this
                     if(object == player){
+
+                    //return if the player is already changing worlds
+                    if(player.worldIsBeingChanged){return;}
+                    
                     let tileCoords = row * world.map.columns + column;
                     
                     items = [];
@@ -1292,6 +1359,8 @@
                     
                     //Prevent this from triggering twice or mulitple times
                     world.map.collisionLayer[tileCoords] = "000";
+
+                    player.worldIsBeingChanged = true;
                     
                     let e = 100;
                     let speed = 10;
@@ -1317,7 +1386,8 @@
                             player.y = world[level].respawnCoords.y;
              
                             changeWorld(world[level]);
-                            
+                            player.worldIsBeingChanged = false;
+
                           
                             speed*=-1;
                             
@@ -1510,10 +1580,15 @@
                 15:function(object, row, column){
                     //Add animation for this
                     if(object == player){
+
+                         //return if the player is already changing worlds
+                        if(player.worldIsBeingChanged){return;}
+
                        let tileCoords = row * world.map.columns + column;
                        
                        items = [];
                        //slimes = [];
+                       player.worldIsBeingChanged = true;
                        
                        //Prevent this from triggering twice or mulitple times
                        world.map.collisionLayer[tileCoords] = "000";
@@ -1539,7 +1614,9 @@
                                player.x = world[level].respawnCoords.x;
                                player.y = world[level].respawnCoords.y;
                             
-                               changeWorld(world[level]);e                               
+                               changeWorld(world[level]);
+                               player.worldIsBeingChanged = false;
+                               
                                
                              
                                speed*=-1;
