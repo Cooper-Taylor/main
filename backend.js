@@ -1,5 +1,6 @@
 
 //Express app :D
+const compression = require("compression");
 const express = require('express');
 const app = express();
 app.disable('x-powered-by'); //small security boost
@@ -10,7 +11,9 @@ const io = new Server(server);
 
 //Thx!
 const clientPath = __dirname;
+app.use(compression());
 app.use(express.static(clientPath));
+
 
 //records the chat
 let chatHistory = [];

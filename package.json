@@ -8,6 +8,7 @@
     "start": "node backend.js"
   },
   "dependencies": {
+    "compression": "^1.7.4",
     "express": "^4.17.3",
     "socket.io": "^4.4.1"
   }
