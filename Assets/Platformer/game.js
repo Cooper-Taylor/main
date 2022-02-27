@@ -8,38 +8,9 @@
             https://www.codepen.io/andyranged/pen/aPojMW
             
             https://www.youtube.com/channel/UCdS3ojA8RL8t1r18Gj1cl6w/videos
-            
-            Sounds from Youtube Audio Library:
-                Made by an listed author:
-                Monumental Journey - By Jesse Gallagher
-                Cloud Wheels, Castle Builder - By Puddle of Infinity
-                
-                Other:
-                ButtonPush
-                LogScrapeBoulder
-                Wooden Sticks
-                WalkingOnStoneFloor
-                
-            Sounds from  https://www.zapsplat.com:
-            
-            
         
         */
-        
-        /*
-                PLANNED CONTENT:
-            +Make the slimes do damage to player //done
-            +Add knockback when using sword //done
-            +Add a improved mob function system //done
-            
-            +Clean up poor coding 
-            +Possibly add a new mob  //done
-            +Add interactive tiles //done
-            +Polish Inventory System //done
-                POSSIBILITES:
-            +Remake the player collision and such //done
-            
-        */
+    
         
             var player, world, collision, context, controller,bullets, mobs, vmax, x_min, x_max, y_min, y_max;
     
@@ -808,8 +779,6 @@
                }
                
             };
-
-           
 
             player = {
                 animation:new Animation(),
@@ -1746,8 +1715,6 @@
                
             };
 
-            
-            
             //START UP STUFF Start
             //startUpWorld();
             //End
@@ -2011,34 +1978,15 @@
 
             }
                
-                var tile_sheet = new Image();
-                tile_sheet.addEventListener("load", (event) => { loadedState = true; });
-                tile_sheet.src = "https://github.com/Cooper-Taylor/main/blob/main/Extras/Platformer/assets/tileSheet.png?raw=true";
-                //"https://user-images.githubusercontent.com/57375954/78173239-64160c80-7425-11ea-8482-c71c8ca1e3d4.png"; // Medium Quality Version
-              
-                //"https://user-images.githubusercontent.com/57375954/74661861-c7dec180-5166-11ea-8872-e0818b452a02.png"; Kinda Old
-                
-                //https://user-images.githubusercontent.com/57375954/74612482-cc0dcf00-50d3-11ea-8df5-c54ed2e3df43.png"; OLD
-                
-                //https://user-images.githubusercontent.com/57375954/73142255-c2f08b80-405a-11ea-9fbd-d6179e419fff.png"; OLDESt
-                
-               var mob_sheet = new Image();
-               
-               mob_sheet.src = "https://user-images.githubusercontent.com/57375954/76334433-6e7f3380-62c9-11ea-9354-8df0b09bd52f.png";
-                
-                //https://user-images.githubusercontent.com/57375954/72667219-7f0cdf00-39e7-11ea-8c5d-afcab67e7e4a.png";
-            
-               var  mobs_sheet = new Image();
-                mobs_sheet.src = "https://user-images.githubusercontent.com/57375954/78508964-aeb2c400-7758-11ea-8378-7349809a66de.png";
-                
-                var item_sheet = new Image();
-                item_sheet.src = "https://user-images.githubusercontent.com/57375954/87887115-47134280-c9f0-11ea-845c-85e6ff9ffc98.png";
-                
-                window.addEventListener("keydown", controller.keyListener );
-                window.addEventListener("keyup", controller.keyListener );
-                window.addEventListener("click", controller.mouseListener);
-                window.addEventListener("mousedown", controller.mouseListener);
-                window.addEventListener("mousemove", controller.mouseListener);
+            var tile_sheet = new Image();
+            tile_sheet.addEventListener("load", (event) => { loadedState = true; });
+            tile_sheet.src = "assets/tileSheet.png";
+
+            window.addEventListener("keydown", controller.keyListener );
+            window.addEventListener("keyup", controller.keyListener );
+            window.addEventListener("click", controller.mouseListener);
+            window.addEventListener("mousedown", controller.mouseListener);
+            window.addEventListener("mousemove", controller.mouseListener);
                 
                  
                 
