@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Cupr.io</title>
+        <script src="https://kit.fontawesome.com/baf22f83c1.js" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="../../GlobalStyle.css">
+        <link rel="stylesheet" href="style.css">
+        
+    </head>
+
+    <body>
+      <header id="header">
+        <div>
+          <a href="../../Home/Home.html" class="headerIconA">
+            <i class="fas fa-robot" class="headerIcon" href="Home.html"></i>    
+          </a>  
+        </div>
+        <div>
+          <p>Cuprio</p>
+        </div>
+        <div>
+          <a class="topNavA" href="../../Home/Home.html">Chat</a>
+        </div>
+        <div>
+          <a class="topNavA" href="../../Games/Games.html">Games</a>
+        </div>
+        <div>
+          <a class="topNavA" href="../../Leaderboard/Leaderboard.html">Leaderboard</a>
+        </div>
+        <div>
+          <a class="topNavA" href="../../About/About.html">About</a>
+        </div>
+      </header>
+
+    
+      <div id="flexBody">
+        <div id="gameDiv">
+            <iframe src="../../Assets/Flappy/flappyTest.html"></iframe>
+        </div>
+
+        <div id="chatDiv">
+              <div id="chatMessagesDiv" >
+                <ul id="chatMessages">
+                  <li> </li><li> </li><li> </li>
+                  <li> </li><li> </li><li> </li>
+                  <li> </li><li> </li><li> </li>
+                  <li> </li><li> </li><li> </li>
+                  <li> </li><li> </li><li> </li>
+                  <li> </li><li> </li><li> </li>
+                  <li> </li><li> </li><li> </li>
+                  <li> </li><li> </li><li> </li>
+                  <li> </li><li> </li><li> </li>
+                  <li> </li><li> </li><li> </li>
+                  <li> </li><li> </li><li> </li>
+                  <li> </li><li> </li><li> </li>
+                </ul>
+                
+              </div>
+              <div id="chatFormDiv">
+                <form id="chatForm" action="">
+                  <input id="chatInput" autocomplete="off" placeholder="Type Here!"/> 
+                </form>
+              </div>
+        </div>
+
+      </div>
+      
+      <footer id="footer"></footer>
+      <script src="/socket.io/socket.io.js"></script>
+      <script src="../../socketClient.js"></script>
+        
+    </body>
+</html>

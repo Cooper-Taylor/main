@@ -1,37 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
+        <title>Cupr.io</title>
+        <script src="https://kit.fontawesome.com/baf22f83c1.js" crossorigin="anonymous"></script>
 
-        <title>SchoolDevs</title>
-        <meta charset="UTF-8">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="Styles/homePageStyles.css">
-
-        <!--AOS - Animation On Scroll - import-->
-        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-
-        <style>
-            *{
-                text-align: center;
-            }
-        </style>
+        <link rel="stylesheet" href="../GlobalStyle.css">
+        
+         
     </head>
+
     <body>
-        <div class="row" id="Header">
-            <div id="Heading">The Paradise</div>
+      <header id="header"> 
+        <div>
+          <a href="Home/Home.html" class="headerIconA">
+            <i class="fas fa-robot" class="headerIcon" href="Home/Home.html"></i>    
+          </a>  
+        </div>
+        <div>
+          <p>Cuprio</p>
+        </div>
+      </header>
+
+    
+      <div id="flexBody">
+        <nav id="sideBarNav">
+            
+          <a class="sideBarNavA" href="Home/Home.html">Chat</a>
+          <a class="sideBarNavA" href="Games/Games.html">Games</a>
+          <a class="sideBarNavA" href="Leaderboard/Leaderboard.html">Leaderboard</a>
+          <a class="sideBarNavA" href="About/About.html">About</a>
+
+        </nav>
+
+        <div id="chatDiv" class="contentDiv">
+              <div id="chatMessagesDiv" >
+                <ul id="chatMessages">
+                  <li> </li><li> </li><li> </li>
+                  <li> </li><li> </li><li> </li>
+                  <li> </li><li> </li><li> </li>
+                  <li> </li><li> </li><li> </li>
+                  <li> </li><li> </li><li> </li>
+                  <li> </li><li> </li><li> </li>
+                  <li> </li><li> </li><li> </li>
+                  <li> </li><li> </li><li> </li>
+                  <li> </li><li> </li><li> </li>
+                  <li> </li><li> </li><li> </li>
+                  <li> </li><li> </li><li> </li>
+                  <li> </li><li> </li><li> </li>
+                </ul>
+                
+              </div>
+              <div id="chatFormDiv">
+                <form id="chatForm">
+                  <input id="chatInput" autocomplete="off" placeholder="Type Here!"/> 
+                </form>
+              </div>
         </div>
 
-        <!--Adding a responsive aspect to the buttons-->
+        <aside id="aside">
 
-        <div class="row" style="margin-top:25vh;">
-            <a href="gameNavigation.html" data-aos="fade-right" data-aos-duration="1000" class="col-3 growth" id="selectButtonGames">Games</a>
-            <a href="textRoom.html" data-aos="fade-left" data-aos-duration="1000" class="col-3 growth" id="selectButtonChat">Chat</a>
-        </div>
+        </aside>
+      </div>
+      
+      <footer id="footer"></footer>
 
-        <script>
-            AOS.init();
-        </script>
+       <!--AOS - Animation On Scroll - import-->
+       <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+       <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+       <script>AOS.init();</script>
     </body>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="socketClient.js"></script>
 </html>

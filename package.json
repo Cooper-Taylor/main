@@ -1,25 +1,14 @@
 {
-  "name": "home",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "name": "cuprio",
+  "version": "0.0.1",
+  "description": "A website",
+  "main": "/Home/Home.html",
   "scripts": {
-    "dev": "react-scripts start",
-    "start": "serve -s build",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "heroku-postbuild": "npm run build"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node backend.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "express": "^4.17.2",
-    "serve": "^13.0.2",
+    "express": "^4.17.3",
     "socket.io": "^4.4.1"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.15"
   }
 }
