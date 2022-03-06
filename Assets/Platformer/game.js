@@ -1541,8 +1541,7 @@
                     let xz;
                     for(xz = 0; xz < world.map.tileModders[tileCoords].length; xz++){
                         world.map[world.map.tileModders[tileCoords][xz].layer][world.map.tileModders[tileCoords][xz].targetTileId] = world.map.tileModders[tileCoords][xz].tileData;
-                        world.map.collisionLayer[world.map.tileModders[tileCoords][xz].targetTileId] = world.map.tileModders[tileCoords][xz].collisionData;
-                        
+n                        world.map.collisionLayer[world.map.tileModders[tileCoords][xz].targetTileId] = world.map.tileModders[tileCoords][xz].collisionData;                        
                     }
                     }
                 }, //Tile modder collision
