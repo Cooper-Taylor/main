@@ -2,7 +2,7 @@
 #gamesDiv{
     display: grid;
     grid-template-columns: 45% 45%; 
-    padding:3%;
+    padding:2%;
     gap: 5%;
     overflow-y: scroll;
     align-items: center;
@@ -34,14 +34,23 @@
 }
 
 #gamesDiv > div > img{
-    width:50%;
+    width:100%;
     height:50%;
+}
+
+.gameTitle{
+    font-size: 3vw;
+    margin-block: 0.5em;
+}
+
+.gameDetails{
+    font-size: 1vw;
 }
 
 .playBtn{
     border-radius:10px;
-    width:50%;
-    font-size: 130%;
+    width:70%;
+    font-size: 2vw;
     background-color: #eea29a;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     
