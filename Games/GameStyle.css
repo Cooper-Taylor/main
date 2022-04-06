@@ -7,6 +7,9 @@
     overflow-y: scroll;
     align-items: center;
     justify-content: center;
+    border-radius: 3vw;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    height:70vh;
 }
 
 .gameDiv{
@@ -15,6 +18,7 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     padding:2%;
     height:90%;
+    border-radius: 3vw;
 }
 
 .gameDiv:hover{
@@ -31,11 +35,13 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     padding:2%;
     height:90%;
+    border-radius: 3vw;
 }
 
 #gamesDiv > div > img{
     width:100%;
     height:50%;
+    border-radius: 3vw;
 }
 
 .gameTitle{
@@ -48,12 +54,13 @@
 }
 
 .playBtn{
-    border-radius:10px;
     width:70%;
     font-size: 2vw;
     background-color: #eea29a;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    
+    border-radius: 1vw;
+    border:none;
+    color:black;
 }
 
 .playBtn:hover{

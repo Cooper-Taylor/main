@@ -13,7 +13,7 @@ body {
     flex-direction: row;
     overflow: hidden;
     column-gap: 3%;
-    height:79%;
+    height:83%;
     justify-content: center;
 }
   
@@ -98,13 +98,16 @@ h1 {
 .contentDiv{
     width:70%;
     background-color: #b1cbbb;
+    border-radius: 3vw;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-indent: 3%;
 }
 
 #chatMessages{
     list-style-type: none;
     margin:0px;
     padding:0px;
+    
 }
 
 #chatMessages > li{
@@ -137,10 +140,12 @@ h1 {
 
 #chatInput{
     font-size:100%;
-    border-radius: 0px;
     margin:0px;
     outline:none;
     flex-grow:1;
+    border-radius: 1vw;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border: none;
 }
 
 #chatInput:focus{
@@ -152,12 +157,16 @@ h1 {
     width:100%;
     overflow-y: scroll;
     list-style-type: none;
+    border-radius: 3vw;
 }
 
 #footer{
     text-align: center;
     font-size:70%;
     height:3%;
+    position: fixed;
+    bottom:0px;
+    width:100%;
 }
 
 .topNavA{
